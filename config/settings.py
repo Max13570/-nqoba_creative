@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yw4*f=va*gwvb(zui@5&95qj33auzpyc25mlhdph1n^00+ov8p'
 
 DEBUG = True
-0-
 # FIXED FOR NGROK + ONLINE
 ALLOWED_HOSTS = ['*']
 

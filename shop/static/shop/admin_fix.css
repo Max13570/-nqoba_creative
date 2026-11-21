@@ -1,0 +1,22 @@
+/* Fix NQOBA Admin alignment */
+#changelist .results {
+    overflow-x: auto;
+    width: 100%;
+}
+#changelist table {
+    width: 100%;
+    table-layout: auto;
+}
+#changelist .paginator {
+    clear: both;
+    margin-top: 15px;
+}
+#toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+#changelist-search input[type="text"] {
+    max-width: 300px;
+}

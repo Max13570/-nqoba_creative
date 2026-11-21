@@ -114,17 +114,29 @@ CLOUDINARY_STORAGE = {
 }
 
 if os.environ.get('CLOUDINARY_CLOUD_NAME'):
-    # On Render - use Cloudinary
+    # On Render - use Cloudinary for MEDIA, WhiteNoise/local for STATIC
     STORAGES = {
         "default": {
             "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
         },
         "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+    # FIX: Old cloudinary_storage still tries to read this setting during collectstatic
+    # Django 5 removed it, so we define it manually as an alias
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+else:
+    # On your laptop - use local files
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
-else:
-    # On your laptop - use local files
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
     MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'

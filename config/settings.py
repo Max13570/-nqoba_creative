@@ -2,6 +2,7 @@
 Django settings for config project.
 """
 
+import os
 from pathlib import Path
 import cloudinary
 import cloudinary.uploader

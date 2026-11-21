@@ -120,12 +120,12 @@ if os.environ.get('CLOUDINARY_CLOUD_NAME'):
             "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
         },
         "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
     # FIX: Old cloudinary_storage still tries to read this setting during collectstatic
     # Django 5 removed it, so we define it manually as an alias
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 else:
     # On your laptop - use local files
     STORAGES = {

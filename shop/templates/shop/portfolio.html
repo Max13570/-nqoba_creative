@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="section portfolio-section">
+    <div class="container">
+        <div class="section-heading"><span class="section-label">OUR CREATIVE WORK</span>
+            <h2>RECENT WORKS</h2>
+            <p>A glimpse into our creativity, passion and commitment to professional design.</p>
+        </div>
+        <div class="portfolio-grid">
+            {% for s in services %}
+            <div class="portfolio-item">
+                {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}">
+                {% elif 'Flyer' in s.name %}<img src="{% static 'shop/flyer.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Logo' in s.name %}<img src="{% static 'shop/logo.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Poster' in s.name %}<img src="{% static 'shop/poster.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Sign' in s.name or 'Banner' in s.name %}<img src="{% static 'shop/signage.jpg' %}"
+                    alt="{{ s.name }}">
+                {% elif 'Brochure' in s.name %}<img src="{% static 'shop/brochure.jpg' %}" alt="{{ s.name }}">
+                {% elif 'CV' in s.name %}<img src="{% static 'shop/cv.jpg' %}" alt="{{ s.name }}">
+                {% else %}<div class="service-placeholder">
+                    <div class="ph-icon">🎨</div>
+                    <div class="ph-title">{{ s.name }}</div>
+                    <div class="ph-sub">NQOBA CREATIVE</div>
+                </div>{% endif %}
+                <div class="portfolio-overlay">
+                    <div>
+                        <h3>{{ s.name }}</h3><a href="https://wa.me/26878336238">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="works-grid">
+            {% for s in services %}
+            <div class="work-card">
+                {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}">
+                {% elif 'Flyer' in s.name %}<img src="{% static 'shop/flyer.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Logo' in s.name %}<img src="{% static 'shop/logo.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Poster' in s.name %}<img src="{% static 'shop/poster.jpg' %}" alt="{{ s.name }}">
+                {% elif 'Sign' in s.name or 'Banner' in s.name %}<img src="{% static 'shop/signage.jpg' %}"
+                    alt="{{ s.name }}">
+                {% elif 'Brochure' in s.name %}<img src="{% static 'shop/brochure.jpg' %}" alt="{{ s.name }}">
+                {% elif 'CV' in s.name %}<img src="{% static 'shop/cv.jpg' %}" alt="{{ s.name }}">{% endif %}
+                <div class="work-body">
+                    <h4>{{ s.name }} - Crafting seamless and intuitive digital experiences.</h4><a
+                        href="https://wa.me/26878336238">Learn More →</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

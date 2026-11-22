@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="section about-section">
+    <div class="container about-grid">
+        <div class="about-visual"><img src="{% static 'shop/logo.png' %}" alt="Nqoba Creative"></div>
+        <div class="about-content">
+            <span class="section-label">CONTACT US</span>
+            <h2>LET'S BRING YOUR IDEAS TO LIFE!</h2>
+            <p>Ready to elevate your brand? Message us on WhatsApp or fill the form — we reply fast.</p>
+            <ul class="about-list">
+                <li>📞 +268 7833 6238</li>
+                <li>📞 +268 7971 7729</li>
+                <li>✉️ shabalalamancoba8@gmail.com</li>
+                <li>📍 Eswatini</li>
+            </ul>
+            <a href="https://wa.me/26878336238" class="btn btn-gold" target="_blank">Chat on WhatsApp →</a>
+        </div>
+    </div>
+</section>
+<section class="section" style="background: var(--off-white);">
+    <div class="container" style="max-width:700px;">
+        <div class="section-heading"><span class="section-label">SEND A MESSAGE</span>
+            <h2>Start Your Project</h2>
+            <p>Tell us what you need and we will reply on WhatsApp / Email.</p>
+        </div>
+        <form class="contact-form" action="https://wa.me/26878336238" method="get" target="_blank"
+            onsubmit="let n=this.name.value; let m=this.message.value; this.action='https://wa.me/26878336238?text='+encodeURIComponent('Hi Nqoba Creative, I am '+n+'. '+m);">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="text" name="phone" placeholder="Your Phone / WhatsApp" required>
+            <textarea name="message" rows="5" placeholder="What do you need? e.g. Logo Design, Flyer, Business Card..."
+                required></textarea>
+            <button type="submit" class="btn btn-gold" style="width:100%; border:none; cursor:pointer;">Send on WhatsApp
+                →</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

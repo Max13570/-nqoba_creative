@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="section services-section">
+    <div class="container">
+        <div class="section-heading"><span class="section-label">WHAT WE DO</span><h2>Our Services</h2><p>Professional design solutions tailored to your business, brand and vision. Order in 1 click on WhatsApp.</p></div>
+        <div class="services-grid">
+            {% for s in services %}
+            <div class="service-card">
+                <div class="service-image">
+                    {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}">
+                    {% elif 'Flyer' in s.name %}<img src="{% static 'shop/flyer.jpg' %}" alt="{{ s.name }}">
+                    {% elif 'Logo' in s.name %}<img src="{% static 'shop/logo.jpg' %}" alt="{{ s.name }}">
+                    {% elif 'Poster' in s.name %}<img src="{% static 'shop/poster.jpg' %}" alt="{{ s.name }}">
+                    {% elif 'Sign' in s.name or 'Banner' in s.name %}<img src="{% static 'shop/signage.jpg' %}" alt="{{ s.name }}">
+                    {% elif 'Brochure' in s.name %}<img src="{% static 'shop/brochure.jpg' %}" alt="{{ s.name }}">
+                    {% elif 'CV' in s.name %}<img src="{% static 'shop/cv.jpg' %}" alt="{{ s.name }}">
+                    {% else %}<div class="service-placeholder"><div class="ph-icon">🎨</div><div class="ph-title">{{ s.name }}</div><div class="ph-sub">NQOBA CREATIVE</div></div>{% endif %}
+                </div>
+                <div class="service-body">
+                    <h3>{{ s.name }}</h3><p>{{ s.description }}</p><div class="service-price">E{{ s.price }}</div><div class="delivery">⏱ Delivery: {{ s.delivery_days }} days</div>
+                    <a href="https://wa.me/26878336238?text=Hi%20Nqoba%20Creative%2C%20I%20am%20interested%20in%20{{ s.name|urlencode }}" class="service-button" target="_blank">Order on WhatsApp →</a>
+                </div>
+            </div>
+            {% empty %}<p style="text-align:center;">Our services will be available soon.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+<section class="cta-section"><div class="container cta-content"><h2>Not Sure What You Need?</h2><p>Message us and we will help you choose the right design.</p><a href="{% url 'contact' %}" class="cta-button">Contact Us →</a></div></section>
+{% endblock %}

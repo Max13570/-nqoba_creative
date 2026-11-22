@@ -1,27 +1,66 @@
-{% extends 'base.html' %}
+{% extends 'shop/base.html' %}
 {% load static %}
 {% block content %}
 <section class="section about-section">
     <div class="container about-grid">
         <div class="about-visual"><img src="{% static 'shop/logo.png' %}" alt="Nqoba Creative Logo"></div>
-        <div class="about-content"><span class="section-label">ABOUT NQOBA CREATIVE</span><h2>YOUR IDEAS. OUR CREATIVITY. ONE POWERFUL BRAND.</h2><p>Nqoba Creative is a graphic design and visual branding agency focused on helping businesses and individuals communicate their ideas through powerful visual designs.</p><p>We believe that great design is more than just beautiful graphics. It is about communicating your message, building your brand and connecting with your audience.</p><ul class="about-list"><li>Creative and original designs</li><li>Professional branding solutions</li><li>Quality and attention to detail</li><li>Customer-focused service</li><li>Designs that make an impact</li></ul><a href="https://wa.me/26878336238" class="btn btn-gold" target="_blank">Let's Work Together →</a></div>
+        <div class="about-content"><span class="section-label">ABOUT NQOBA CREATIVE</span>
+            <h2>YOUR IDEAS. OUR CREATIVITY. ONE POWERFUL BRAND.</h2>
+            <p>Nqoba Creative is a graphic design and visual branding agency focused on helping businesses and
+                individuals communicate their ideas through powerful visual designs.</p>
+            <p>We believe that great design is more than just beautiful graphics. It is about communicating your
+                message, building your brand and connecting with your audience.</p>
+            <ul class="about-list">
+                <li>Creative and original designs</li>
+                <li>Professional branding solutions</li>
+                <li>Quality and attention to detail</li>
+                <li>Customer-focused service</li>
+                <li>Designs that make an impact</li>
+            </ul><a href="https://wa.me/26878336238" class="btn btn-gold" target="_blank">Let's Work Together →</a>
+        </div>
     </div>
 </section>
 <section class="creative-sec">
     <div class="container">
         <div class="creative-box">
             <div class="creative-grid">
-                <div><h2>Creative Design<br>with Refreshing<br>Ideas</h2><p>We believe great design is more than beautiful graphics. It is about communicating your message, building your brand and connecting with your audience in Eswatini and beyond.</p></div>
                 <div>
-                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}"><div><h4>Vision</h4><p>To be Eswatini's most trusted creative brand — designs that inspire and sell.</p></div></div>
-                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}"><div><h4>Mission</h4><p>To turn your ideas into designs that attract customers and grow your business.</p></div></div>
+                    <h2>Creative Design<br>with Refreshing<br>Ideas</h2>
+                    <p>We believe great design is more than beautiful graphics. It is about communicating your message,
+                        building your brand and connecting with your audience in Eswatini and beyond.</p>
+                </div>
+                <div>
+                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}">
+                        <div>
+                            <h4>Vision</h4>
+                            <p>To be Eswatini's most trusted creative brand — designs that inspire and sell.</p>
+                        </div>
+                    </div>
+                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}">
+                        <div>
+                            <h4>Mission</h4>
+                            <p>To turn your ideas into designs that attract customers and grow your business.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="stats-row">
-                <div class="stat-num"><h3>100+</h3><p>Completed Projects</p></div>
-                <div class="stat-num"><h3>3+</h3><p>Years Experience</p></div>
-                <div class="stat-num"><h3>75+</h3><p>Happy Clients</p></div>
-                <div class="stat-num"><h3>4+</h3><p>Awards Winning</p></div>
+                <div class="stat-num">
+                    <h3>100+</h3>
+                    <p>Completed Projects</p>
+                </div>
+                <div class="stat-num">
+                    <h3>3+</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat-num">
+                    <h3>75+</h3>
+                    <p>Happy Clients</p>
+                </div>
+                <div class="stat-num">
+                    <h3>4+</h3>
+                    <p>Awards Winning</p>
+                </div>
             </div>
         </div>
     </div>
@@ -29,13 +68,52 @@
 <section class="exp-section">
     <div class="container">
         <div class="exp-box">
-            <div><h2>My Experience<br>and Skills</h2><div class="timeline-item"><small>2023 - PRESENT</small><h4>Graphic Designer</h4><p>Nqoba Creative - Branding, Logos, Marketing Materials</p></div><div class="timeline-item"><small>2022 - 2023</small><h4>Website Designer</h4><p>Business websites, Landing pages, Portfolio sites</p></div><div class="timeline-item"><small>2021 - 2022</small><h4>UI/UX Designer</h4><p>Clean, modern, user-friendly designs</p></div></div>
             <div>
-                <div class="skill"><div class="skill-top"><span>Graphic Designer</span><span>95%</span></div><div class="bar"><div class="bar-fill" style="width:95%"></div></div></div>
-                <div class="skill"><div class="skill-top"><span>UI/UX</span><span>85%</span></div><div class="bar"><div class="bar-fill" style="width:85%"></div></div></div>
-                <div class="skill"><div class="skill-top"><span>Branding</span><span>90%</span></div><div class="bar"><div class="bar-fill" style="width:90%"></div></div></div>
-                <div class="skill"><div class="skill-top"><span>Web Development</span><span>80%</span></div><div class="bar"><div class="bar-fill" style="width:80%"></div></div></div>
-                <div class="skill"><div class="skill-top"><span>Marketing Design</span><span>88%</span></div><div class="bar"><div class="bar-fill" style="width:88%"></div></div></div>
+                <h2>My Experience<br>and Skills</h2>
+                <div class="timeline-item"><small>2023 - PRESENT</small>
+                    <h4>Graphic Designer</h4>
+                    <p>Nqoba Creative - Branding, Logos, Marketing Materials</p>
+                </div>
+                <div class="timeline-item"><small>2022 - 2023</small>
+                    <h4>Website Designer</h4>
+                    <p>Business websites, Landing pages, Portfolio sites</p>
+                </div>
+                <div class="timeline-item"><small>2021 - 2022</small>
+                    <h4>UI/UX Designer</h4>
+                    <p>Clean, modern, user-friendly designs</p>
+                </div>
+            </div>
+            <div>
+                <div class="skill">
+                    <div class="skill-top"><span>Graphic Designer</span><span>95%</span></div>
+                    <div class="bar">
+                        <div class="bar-fill" style="width:95%"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="skill-top"><span>UI/UX</span><span>85%</span></div>
+                    <div class="bar">
+                        <div class="bar-fill" style="width:85%"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="skill-top"><span>Branding</span><span>90%</span></div>
+                    <div class="bar">
+                        <div class="bar-fill" style="width:90%"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="skill-top"><span>Web Development</span><span>80%</span></div>
+                    <div class="bar">
+                        <div class="bar-fill" style="width:80%"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="skill-top"><span>Marketing Design</span><span>88%</span></div>
+                    <div class="bar">
+                        <div class="bar-fill" style="width:88%"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

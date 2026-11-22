@@ -1,4 +1,4 @@
-markdown# NQOBA CREATIVE — Ideas Into Impact
+NQOBA CREATIVE
 
 Creative business website for Nqoba Creative in Mbabane, Eswatini.
 Showcase services, portfolio, and allow customers to contact / order.

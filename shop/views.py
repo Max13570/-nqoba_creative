@@ -1,16 +1,20 @@
-from django.shortcuts import render, redirect
-from .models import Service, Order
+from django.shortcuts import render
+from .models import Service
 
 def home(request):
     services = Service.objects.all()
-    if request.method == 'POST':
-        Order.objects.create(
-            customer_name=request.POST.get('name'),
-            whatsapp=request.POST.get('whatsapp'),
-            email=request.POST.get('email'),
-            service_id=request.POST.get('service'),
-            details=request.POST.get('details'),
-            deadline=request.POST.get('deadline'),
-        )
-        return redirect('/?success=1')
-    return render(request, 'shop/home.html', {'services': services})
+    return render(request, 'home.html', {'services': services})
+
+def services_page(request):
+    services = Service.objects.all()
+    return render(request, 'services.html', {'services': services})
+
+def about_page(request):
+    return render(request, 'about.html')
+
+def portfolio_page(request):
+    services = Service.objects.all()
+    return render(request, 'portfolio.html', {'services': services})
+
+def contact_page(request):
+    return render(request, 'contact.html')

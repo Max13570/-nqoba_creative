@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Place an Order | Nqoba Creative</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #064e3b;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            color: #064e3b;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #064e3b;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0f766e;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #064e3b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .notice {
+            background: #fffbeb;
+            border-left: 4px solid #d4af37;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .navbar {
+                padding: 20px;
+            }
+
+            .navbar a {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">NQOBA CREATIVE</div>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/services/">Services</a>
+            <a href="/track-order/">Track Order</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="heading">
+                <h1>Place Your Order</h1>
+
+                <p>
+                    Let's bring your creative ideas to life.
+                    Fill in the details below to get started.
+                </p>
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="customer_name">Full Name *</label>
+
+                    <input type="text" name="customer_name" id="customer_name" placeholder="Enter your full name"
+                        required>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="whatsapp">WhatsApp Number *</label>
+
+                        <input type="tel" name="whatsapp" id="whatsapp" placeholder="+268..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+
+                        <input type="email" name="email" id="email" placeholder="your@email.com" required>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Select Service *</label>
+
+                    <select name="service" id="service" required>
+
+                        <option value="">Choose a service</option>
+
+                        {% for service in services %}
+                        <option value="{{ service.id }}">
+                            {{ service.name }} - E{{ service.price }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity *</label>
+
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deadline">Required Deadline *</label>
+
+                        <input type="date" name="deadline" id="deadline" required>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="details">Describe Your Design Requirements *</label>
+
+                    <textarea name="details" id="details"
+                        placeholder="Tell us what you need, your preferred colours, text, size, style and any other requirements..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn">
+                    Submit Order
+                </button>
+
+            </form>
+
+            <div class="notice">
+                <strong>Important:</strong>
+                After submitting your order, you will receive a unique tracking
+                number. Keep it safe so you can monitor your order progress.
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        &copy; {% now "Y" %} Nqoba Creative.
+        Ideas Into Impact.
+    </footer>
+
+</body>
+
+</html>

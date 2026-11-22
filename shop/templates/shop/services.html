@@ -1,49 +1,1229 @@
+
 {% extends 'shop/base.html' %}
 {% load static %}
+
+{% block title %}Our Services | Nqoba Creative{% endblock %}
+
+{% block meta_description %}
+Explore professional graphic design, branding, marketing and creative services offered by Nqoba Creative in Eswatini.
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ==========================================
+   NQOBA CREATIVE SERVICES PAGE
+========================================== */
+
+.services-page {
+    background: #F7F8F5;
+    padding-bottom: 80px;
+}
+
+.services-hero {
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(212,175,55,0.16),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #021F16,
+            #063B2A,
+            #0A4B35
+        );
+
+    padding: 90px 0 80px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.services-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 50%;
+
+    right: -200px;
+    top: -200px;
+}
+
+.services-hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+.services-hero-label {
+    display: inline-block;
+
+    color: #D4AF37;
+
+    border: 1px solid rgba(212,175,55,0.5);
+
+    padding: 10px 18px;
+
+    border-radius: 50px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+.services-hero h1 {
+    color: #FFFFFF;
+
+    font-size: clamp(38px, 6vw, 65px);
+
+    font-weight: 900;
+    line-height: 1.1;
+
+    margin-bottom: 25px;
+}
+
+.services-hero h1 span {
+    color: #D4AF37;
+}
+
+.services-hero p {
+    color: #D1DDD7;
+
+    font-size: 16px;
+    line-height: 1.9;
+
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+}
+
+.services-hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    gap: 15px;
+}
+
+/* ==========================================
+   SERVICE INTRO
+========================================== */
+
+.services-intro {
+    padding: 65px 0 30px;
+}
+
+.services-intro-content {
+    max-width: 800px;
+
+    text-align: center;
+
+    margin: 0 auto;
+}
+
+.services-intro-label {
+    color: #D4AF37;
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+.services-intro h2 {
+    color: #063B2A;
+
+    font-size: clamp(27px, 4vw, 40px);
+
+    font-weight: 900;
+
+    line-height: 1.2;
+
+    margin-bottom: 18px;
+}
+
+.services-intro p {
+    color: #64748B;
+
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.services-toolbar {
+    margin: 35px 0 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+}
+
+.services-search {
+    position: relative;
+
+    width: 100%;
+    max-width: 450px;
+}
+
+.services-search input {
+    width: 100%;
+
+    background: #FFFFFF;
+
+    border: 1px solid #DDE3DD;
+
+    padding: 15px 20px 15px 48px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.services-search input:focus {
+    border-color: #D4AF37;
+
+    box-shadow:
+        0 0 0 3px rgba(212,175,55,0.12);
+}
+
+.services-search-icon {
+    position: absolute;
+
+    left: 17px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #64748B;
+
+    font-size: 18px;
+}
+
+.services-count {
+    color: #64748B;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ==========================================
+   SERVICE GRID
+========================================== */
+
+.services-catalog {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 25px;
+}
+
+.catalog-card {
+    background: #FFFFFF;
+
+    border: 1px solid #E6EAE5;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.catalog-card:hover {
+    transform: translateY(-7px);
+
+    border-color: #D4AF37;
+
+    box-shadow:
+        0 15px 40px rgba(6,59,42,0.10);
+}
+
+.catalog-image {
+    height: 250px;
+
+    background: #EEF1ED;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.catalog-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+}
+
+.catalog-card:hover .catalog-image img {
+    transform: scale(1.07);
+}
+
+.catalog-image-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #063B2A,
+            #0A4B35
+        );
+
+    color: #FFFFFF;
+}
+
+.catalog-placeholder-icon {
+    font-size: 40px;
+
+    margin-bottom: 15px;
+
+    color: #D4AF37;
+}
+
+.catalog-image-placeholder h3 {
+    font-size: 20px;
+    font-weight: 900;
+
+    color: #FFFFFF;
+}
+
+.catalog-image-placeholder p {
+    font-size: 10px;
+
+    color: #D4AF37;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-top: 10px;
+}
+
+.catalog-badge {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    background: #D4AF37;
+    color: #021F16;
+
+    padding: 7px 12px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.catalog-content {
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+}
+
+.catalog-content h3 {
+    color: #063B2A;
+
+    font-size: 19px;
+    font-weight: 900;
+
+    margin-bottom: 12px;
+}
+
+.catalog-description {
+    color: #64748B;
+
+    font-size: 13px;
+    line-height: 1.8;
+
+    margin-bottom: 20px;
+
+    flex: 1;
+}
+
+.catalog-info {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.catalog-info-item {
+    background: #F7F8F5;
+
+    border: 1px solid #E8ECE7;
+
+    padding: 9px 12px;
+
+    border-radius: 6px;
+
+    color: #64748B;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.catalog-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 0;
+
+    border-top: 1px solid #E8ECE7;
+    border-bottom: 1px solid #E8ECE7;
+
+    margin-bottom: 20px;
+}
+
+.catalog-price-label {
+    color: #64748B;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.catalog-price-value {
+    color: #063B2A;
+
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.catalog-order-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    background: #063B2A;
+    color: #FFFFFF;
+
+    padding: 14px 18px;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-align: center;
+
+    transition: 0.3s;
+}
+
+.catalog-order-button:hover {
+    background: #D4AF37;
+    color: #021F16;
+}
+
+/* ==========================================
+   EMPTY SEARCH
+========================================== */
+
+.services-no-results {
+    display: none;
+
+    grid-column: 1 / -1;
+
+    background: #FFFFFF;
+
+    padding: 60px 25px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    border: 1px solid #E6EAE5;
+}
+
+.services-no-results h3 {
+    color: #063B2A;
+
+    font-size: 20px;
+    font-weight: 900;
+
+    margin-bottom: 10px;
+}
+
+.services-no-results p {
+    color: #64748B;
+
+    font-size: 14px;
+}
+
+/* ==========================================
+   ORDER PROCESS
+========================================== */
+
+.service-process {
+    background: #FFFFFF;
+
+    padding: 80px 0;
+
+    margin-top: 80px;
+}
+
+.service-process-heading {
+    text-align: center;
+
+    max-width: 700px;
+
+    margin: 0 auto 45px;
+}
+
+.service-process-heading span {
+    color: #D4AF37;
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.service-process-heading h2 {
+    color: #063B2A;
+
+    font-size: clamp(28px, 4vw, 40px);
+
+    font-weight: 900;
+
+    margin: 15px 0;
+}
+
+.service-process-heading p {
+    color: #64748B;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.service-process-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+.service-process-card {
+    padding: 25px;
+
+    background: #F7F8F5;
+
+    border: 1px solid #E6EAE5;
+
+    border-radius: 12px;
+}
+
+.service-process-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 45px;
+    height: 45px;
+
+    background: #063B2A;
+    color: #D4AF37;
+
+    border-radius: 50%;
+
+    font-size: 15px;
+    font-weight: 900;
+
+    margin-bottom: 18px;
+}
+
+.service-process-card h3 {
+    color: #063B2A;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    margin-bottom: 10px;
+}
+
+.service-process-card p {
+    color: #64748B;
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* ==========================================
+   CTA
+========================================== */
+
+.services-cta {
+    background:
+        linear-gradient(
+            135deg,
+            #021F16,
+            #063B2A
+        );
+
+    padding: 75px 30px;
+
+    margin-top: 80px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.services-cta h2 {
+    color: #FFFFFF;
+
+    font-size: clamp(28px, 4vw, 43px);
+
+    font-weight: 900;
+
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+}
+
+.services-cta h2 span {
+    color: #D4AF37;
+}
+
+.services-cta p {
+    color: #D1DDD7;
+
+    font-size: 15px;
+    line-height: 1.8;
+
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+}
+
+.services-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 15px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+
+    .service-process-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .services-hero {
+        padding: 70px 20px;
+    }
+
+    .services-hero h1 {
+        font-size: 40px;
+    }
+
+    .services-hero p {
+        font-size: 14px;
+    }
+
+    .services-intro {
+        padding-top: 50px;
+    }
+
+    .services-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .services-search {
+        max-width: none;
+    }
+
+    .services-count {
+        text-align: center;
+    }
+
+    .services-catalog {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-image {
+        height: 230px;
+    }
+
+    .service-process {
+        padding: 60px 20px;
+    }
+
+    .service-process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .services-cta {
+        padding: 55px 20px;
+        margin-top: 50px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .services-hero h1 {
+        font-size: 34px;
+    }
+
+    .services-hero-buttons {
+        flex-direction: column;
+    }
+
+    .services-hero-buttons .btn {
+        width: 100%;
+    }
+
+    .catalog-content {
+        padding: 20px;
+    }
+
+    .catalog-price-value {
+        font-size: 22px;
+    }
+
+    .services-cta-buttons {
+        flex-direction: column;
+    }
+
+    .services-cta-buttons .btn {
+        width: 100%;
+    }
+
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section services-section">
-    <div class="container">
-        <div class="section-heading"><span class="section-label">WHAT WE DO</span>
-            <h2>Our Services</h2>
-            <p>Professional design solutions tailored to your business, brand and vision. Order in 1 click on WhatsApp.
+
+<div class="services-page">
+
+    <!-- ======================================
+         HERO
+    ====================================== -->
+
+    <section class="services-hero">
+
+        <div class="container services-hero-content">
+
+            <span class="services-hero-label">
+                OUR CREATIVE SERVICES
+            </span>
+
+            <h1>
+                DESIGN SOLUTIONS
+                <br>
+                <span>THAT MAKE AN IMPACT.</span>
+            </h1>
+
+            <p>
+                From branding and graphic design to marketing
+                materials and business communication, we provide
+                creative solutions that help your brand stand out.
             </p>
-        </div>
-        <div class="services-grid">
-            {% for s in services %}
-            <div class="service-card">
-                <div class="service-image">
-                    {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}">
-                    {% elif 'Flyer' in s.name %}<img src="{% static 'shop/flyer.jpg' %}" alt="{{ s.name }}">
-                    {% elif 'Logo' in s.name %}<img src="{% static 'shop/logo.jpg' %}" alt="{{ s.name }}">
-                    {% elif 'Poster' in s.name %}<img src="{% static 'shop/poster.jpg' %}" alt="{{ s.name }}">
-                    {% elif 'Sign' in s.name or 'Banner' in s.name %}<img src="{% static 'shop/signage.jpg' %}"
-                        alt="{{ s.name }}">
-                    {% elif 'Brochure' in s.name %}<img src="{% static 'shop/brochure.jpg' %}" alt="{{ s.name }}">
-                    {% elif 'CV' in s.name %}<img src="{% static 'shop/cv.jpg' %}" alt="{{ s.name }}">
-                    {% else %}<div class="service-placeholder">
-                        <div class="ph-icon">🎨</div>
-                        <div class="ph-title">{{ s.name }}</div>
-                        <div class="ph-sub">NQOBA CREATIVE</div>
-                    </div>{% endif %}
-                </div>
-                <div class="service-body">
-                    <h3>{{ s.name }}</h3>
-                    <p>{{ s.description }}</p>
-                    <div class="service-price">E{{ s.price }}</div>
-                    <div class="delivery">⏱ Delivery: {{ s.delivery_days }} days</div>
-                    <a href="https://wa.me/26878336238?text=Hi%20Nqoba%20Creative%2C%20I%20am%20interested%20in%20{{ s.name|urlencode }}"
-                        class="service-button" target="_blank">Order on WhatsApp →</a>
-                </div>
+
+            <div class="services-hero-buttons">
+
+                <a href="#service-catalog"
+                   class="btn btn-gold">
+
+                    Explore Services ↓
+
+                </a>
+
+                <a href="{% url 'contact' %}"
+                   class="btn btn-outline">
+
+                    Request A Quote
+
+                </a>
+
             </div>
-            {% empty %}<p style="text-align:center;">Our services will be available soon.</p>{% endfor %}
+
         </div>
-    </div>
-</section>
-<section class="cta-section">
-    <div class="container cta-content">
-        <h2>Not Sure What You Need?</h2>
-        <p>Message us and we will help you choose the right design.</p><a href="{% url 'contact' %}"
-            class="cta-button">Contact Us →</a>
-    </div>
-</section>
+
+    </section>
+
+    <!-- ======================================
+         INTRODUCTION
+    ====================================== -->
+
+    <section class="services-intro">
+
+        <div class="container">
+
+            <div class="services-intro-content">
+
+                <div class="services-intro-label">
+                    CREATIVE EXCELLENCE
+                </div>
+
+                <h2>
+                    Everything Your Brand Needs
+                    To Stand Out
+                </h2>
+
+                <p>
+                    Browse our range of professional creative services.
+                    Whether you need a new brand identity, marketing
+                    material or a custom design, Nqoba Creative is
+                    ready to bring your ideas to life.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         SERVICE CATALOG
+    ====================================== -->
+
+    <section class="container" id="service-catalog">
+
+        <div class="services-toolbar">
+
+            <div class="services-search">
+
+                <span class="services-search-icon">
+                    ⌕
+                </span>
+
+                <input type="search"
+                       id="serviceSearch"
+                       placeholder="Search for a service..."
+                       aria-label="Search services">
+
+            </div>
+
+            <div class="services-count">
+
+                <span id="serviceCount">
+                    {{ services|length }}
+                </span>
+
+                Services Available
+
+            </div>
+
+        </div>
+
+        <div class="services-catalog" id="servicesCatalog">
+
+            {% for service in services %}
+
+            <article class="catalog-card"
+                     data-service-name="{{ service.name|lower }}">
+
+                <div class="catalog-image">
+
+                    {% if service.image %}
+
+                        <img src="{{ service.image.url }}"
+                             alt="{{ service.name }}"
+                             loading="lazy">
+
+                    {% else %}
+
+                        <div class="catalog-image-placeholder">
+
+                            <div class="catalog-placeholder-icon">
+                                ✦
+                            </div>
+
+                            <h3>
+                                {{ service.name }}
+                            </h3>
+
+                            <p>
+                                NQOBA CREATIVE
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                    <span class="catalog-badge">
+                        NQOBA CREATIVE
+                    </span>
+
+                </div>
+
+                <div class="catalog-content">
+
+                    <h3>
+                        {{ service.name }}
+                    </h3>
+
+                    <p class="catalog-description">
+                        {{ service.description|default:"Professional creative design tailored to your business and brand."|truncatewords:35 }}
+                    </p>
+
+                    <div class="catalog-info">
+
+                        {% if service.delivery_days %}
+
+                            <span class="catalog-info-item">
+                                ⏱ {{ service.delivery_days }} Days
+                            </span>
+
+                        {% endif %}
+
+                        <span class="catalog-info-item">
+                            ✦ Professional Design
+                        </span>
+
+                    </div>
+
+                    <div class="catalog-price">
+
+                        <span class="catalog-price-label">
+                            Starting Price
+                        </span>
+
+                        <span class="catalog-price-value">
+                            E{{ service.price }}
+                        </span>
+
+                    </div>
+
+                    <a href="https://wa.me/26878336238?text=Hello%20Nqoba%20Creative%2C%20I%20would%20like%20to%20enquire%20about%20{{ service.name|urlencode }}."
+                       class="catalog-order-button"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        Enquire About This Service →
+
+                    </a>
+
+                </div>
+
+            </article>
+
+            {% empty %}
+
+            <div class="services-no-results"
+                 style="display:block;">
+
+                <h3>
+                    Our services are coming soon.
+                </h3>
+
+                <p>
+                    Please contact us for information
+                    about our creative services.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="services-no-results"
+                 id="noResults">
+
+                <h3>
+                    No services found.
+                </h3>
+
+                <p>
+                    Try searching with a different keyword.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         HOW TO ORDER
+    ====================================== -->
+
+    <section class="service-process">
+
+        <div class="container">
+
+            <div class="service-process-heading">
+
+                <span>
+                    HOW IT WORKS
+                </span>
+
+                <h2>
+                    Getting Started Is Easy
+                </h2>
+
+                <p>
+                    Our simple ordering process makes it easy
+                    to turn your idea into a professional design.
+                </p>
+
+            </div>
+
+            <div class="service-process-grid">
+
+                <div class="service-process-card">
+
+                    <div class="service-process-number">
+                        01
+                    </div>
+
+                    <h3>Choose Your Service</h3>
+
+                    <p>
+                        Browse our services and select
+                        the design solution you need.
+                    </p>
+
+                </div>
+
+                <div class="service-process-card">
+
+                    <div class="service-process-number">
+                        02
+                    </div>
+
+                    <h3>Contact Us</h3>
+
+                    <p>
+                        Send us your requirements,
+                        ideas and reference materials.
+                    </p>
+
+                </div>
+
+                <div class="service-process-card">
+
+                    <div class="service-process-number">
+                        03
+                    </div>
+
+                    <h3>We Create</h3>
+
+                    <p>
+                        Our creative team develops
+                        a professional design for your project.
+                    </p>
+
+                </div>
+
+                <div class="service-process-card">
+
+                    <div class="service-process-number">
+                        04
+                    </div>
+
+                    <h3>Receive Your Design</h3>
+
+                    <p>
+                        Review your project and receive
+                        the final design after approval.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         FINAL CTA
+    ====================================== -->
+
+    <section class="container">
+
+        <div class="services-cta">
+
+            <h2>
+                HAVE A PROJECT
+                <span>IN MIND?</span>
+            </h2>
+
+            <p>
+                Tell us what you need. We will help you find
+                the right creative solution for your business,
+                brand or personal project.
+            </p>
+
+            <div class="services-cta-buttons">
+
+                <a href="{% url 'contact' %}"
+                   class="btn btn-gold">
+
+                    Request A Quote →
+
+                </a>
+
+                <a href="https://wa.me/26878336238"
+                   class="btn btn-outline"
+                   target="_blank"
+                   rel="noopener noreferrer">
+
+                    Chat On WhatsApp
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ==========================================
+     SEARCH FUNCTIONALITY
+========================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("serviceSearch");
+
+    const serviceCards = document.querySelectorAll(".catalog-card");
+
+    const noResults = document.getElementById("noResults");
+
+    const serviceCount = document.getElementById("serviceCount");
+
+    if (!searchInput) {
+        return;
+    }
+
+    searchInput.addEventListener("input", function () {
+
+        const searchTerm = this.value.toLowerCase().trim();
+
+        let visibleCount = 0;
+
+        serviceCards.forEach(function (card) {
+
+            const serviceName =
+                card.getAttribute("data-service-name") || "";
+
+            const serviceDescription =
+                card.querySelector(".catalog-description")
+                    ?.textContent.toLowerCase() || "";
+
+            const matches =
+                serviceName.includes(searchTerm) ||
+                serviceDescription.includes(searchTerm);
+
+            if (matches) {
+
+                card.style.display = "flex";
+
+                visibleCount++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+        if (serviceCount) {
+
+            serviceCount.textContent = visibleCount;
+
+        }
+
+        if (noResults) {
+
+            noResults.style.display =
+                visibleCount === 0 ? "block" : "none";
+
+        }
+
+    });
+
+});
+
+</script>
+
 {% endblock %}

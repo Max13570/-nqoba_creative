@@ -1,38 +1,1328 @@
+
 {% extends 'shop/base.html' %}
 {% load static %}
+
+{% block title %}Contact Us | Nqoba Creative{% endblock %}
+
+{% block meta_description %}
+Contact Nqoba Creative for professional graphic design, branding, promotional materials and creative solutions.
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+/* ==========================================
+   CONTACT PAGE
+========================================== */
+
+.contact-page {
+    background: #F7F8F5;
+}
+
+/* HERO */
+
+.contact-hero {
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(212,175,55,0.15),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #021F16,
+            #063B2A,
+            #0A4B35
+        );
+
+    padding: 90px 0;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 50%;
+
+    right: -200px;
+    top: -200px;
+}
+
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+.contact-hero-label {
+    display: inline-block;
+
+    color: #D4AF37;
+
+    border: 1px solid rgba(212,175,55,0.5);
+
+    padding: 10px 18px;
+
+    border-radius: 50px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+.contact-hero h1 {
+    color: #FFFFFF;
+
+    font-size: clamp(38px, 6vw, 65px);
+
+    line-height: 1.1;
+
+    font-weight: 900;
+
+    margin-bottom: 25px;
+}
+
+.contact-hero h1 span {
+    color: #D4AF37;
+}
+
+.contact-hero p {
+    color: #D1DDD7;
+
+    font-size: 16px;
+
+    line-height: 1.9;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+}
+
+/* ==========================================
+   CONTACT MAIN
+========================================== */
+
+.contact-main {
+    padding: 80px 0;
+}
+
+.contact-layout {
+    display: grid;
+
+    grid-template-columns: 1.2fr 0.8fr;
+
+    gap: 40px;
+
+    align-items: start;
+}
+
+/* ==========================================
+   CONTACT FORM
+========================================== */
+
+.contact-form-card {
+    background: #FFFFFF;
+
+    border: 1px solid #E6EAE5;
+
+    border-radius: 16px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 10px 40px rgba(6,59,42,0.04);
+}
+
+.contact-form-header {
+    margin-bottom: 35px;
+}
+
+.contact-form-header span {
+    color: #D4AF37;
+
+    font-size: 11px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+.contact-form-header h2 {
+    color: #063B2A;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+    margin: 15px 0;
+}
+
+.contact-form-header p {
+    color: #64748B;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+/* FORM GRID */
+
+.contact-form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+.contact-form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.contact-form-group label {
+    color: #063B2A;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.contact-form-group label span {
+    color: #EF4444;
+}
+
+.contact-form-group input,
+.contact-form-group select,
+.contact-form-group textarea {
+    width: 100%;
+
+    background: #F8FAF8;
+
+    border: 1px solid #DDE3DD;
+
+    border-radius: 8px;
+
+    padding: 14px 16px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    color: #1F2937;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.contact-form-group input:focus,
+.contact-form-group select:focus,
+.contact-form-group textarea:focus {
+    border-color: #D4AF37;
+
+    background: #FFFFFF;
+
+    box-shadow:
+        0 0 0 3px rgba(212,175,55,0.12);
+}
+
+.contact-form-group textarea {
+    resize: vertical;
+
+    min-height: 150px;
+}
+
+.contact-form-group input::placeholder,
+.contact-form-group textarea::placeholder {
+    color: #94A3B8;
+}
+
+/* ==========================================
+   FORM BUTTON
+========================================== */
+
+.contact-submit {
+    width: 100%;
+
+    background: #063B2A;
+
+    color: #FFFFFF;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 17px 25px;
+
+    font-size: 14px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    margin-top: 25px;
+}
+
+.contact-submit:hover {
+    background: #D4AF37;
+
+    color: #021F16;
+
+    transform: translateY(-2px);
+}
+
+.contact-submit span {
+    margin-left: 8px;
+}
+
+/* FORM NOTICE */
+
+.contact-form-notice {
+    display: none;
+
+    background: #FBF6E3;
+
+    border: 1px solid #D4AF37;
+
+    color: #063B2A;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    margin-top: 20px;
+}
+
+/* ==========================================
+   CONTACT INFORMATION
+========================================== */
+
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 25px;
+}
+
+.contact-info-card {
+    background: #FFFFFF;
+
+    border: 1px solid #E6EAE5;
+
+    border-radius: 15px;
+
+    padding: 30px;
+
+    transition: 0.3s;
+}
+
+.contact-info-card:hover {
+    border-color: #D4AF37;
+
+    box-shadow:
+        0 10px 30px rgba(6,59,42,0.06);
+}
+
+.contact-info-header {
+    margin-bottom: 25px;
+}
+
+.contact-info-header h2 {
+    color: #063B2A;
+
+    font-size: 22px;
+
+    font-weight: 900;
+
+    margin-bottom: 10px;
+}
+
+.contact-info-header p {
+    color: #64748B;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+/* INFORMATION ITEMS */
+
+.contact-info-item {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding: 20px 0;
+
+    border-bottom: 1px solid #E8ECE7;
+}
+
+.contact-info-item:last-child {
+    border-bottom: none;
+
+    padding-bottom: 0;
+}
+
+.contact-info-icon {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    background: #FBF6E3;
+
+    color: #063B2A;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+.contact-info-item h3 {
+    color: #063B2A;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    margin-bottom: 7px;
+}
+
+.contact-info-item p,
+.contact-info-item a {
+    color: #64748B;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    text-decoration: none;
+}
+
+.contact-info-item a:hover {
+    color: #D4AF37;
+}
+
+/* ==========================================
+   WHATSAPP CARD
+========================================== */
+
+.contact-whatsapp-card {
+    background:
+        linear-gradient(
+            135deg,
+            #021F16,
+            #063B2A
+        );
+
+    border-radius: 15px;
+
+    padding: 35px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-whatsapp-card h2 {
+    color: #FFFFFF;
+
+    font-size: 23px;
+
+    font-weight: 900;
+
+    margin-bottom: 15px;
+}
+
+.contact-whatsapp-card p {
+    color: #D1DDD7;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.contact-whatsapp-card a {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    background: #D4AF37;
+
+    color: #021F16;
+
+    padding: 14px 22px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+.contact-whatsapp-card a:hover {
+    background: #FFFFFF;
+
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   PROCESS SECTION
+========================================== */
+
+.contact-process {
+    background: #FFFFFF;
+
+    padding: 80px 0;
+}
+
+.contact-process-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 25px;
+}
+
+.contact-process-card {
+    background: #F7F8F5;
+
+    border: 1px solid #E6EAE5;
+
+    border-radius: 12px;
+
+    padding: 30px;
+
+    transition: 0.3s;
+}
+
+.contact-process-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #D4AF37;
+}
+
+.contact-process-number {
+    color: #D4AF37;
+
+    font-size: 32px;
+
+    font-weight: 900;
+
+    margin-bottom: 20px;
+}
+
+.contact-process-card h3 {
+    color: #063B2A;
+
+    font-size: 17px;
+
+    font-weight: 900;
+
+    margin-bottom: 12px;
+}
+
+.contact-process-card p {
+    color: #64748B;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+/* ==========================================
+   CTA
+========================================== */
+
+.contact-bottom-cta {
+    padding: 80px 0;
+}
+
+.contact-bottom-cta-box {
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(212,175,55,0.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #021F16,
+            #063B2A
+        );
+
+    border-radius: 18px;
+
+    padding: 70px 30px;
+
+    text-align: center;
+}
+
+.contact-bottom-cta-box h2 {
+    color: #FFFFFF;
+
+    font-size: clamp(28px, 4vw, 45px);
+
+    font-weight: 900;
+
+    margin-bottom: 20px;
+}
+
+.contact-bottom-cta-box h2 span {
+    color: #D4AF37;
+}
+
+.contact-bottom-cta-box p {
+    color: #D1DDD7;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .contact-hero {
+        padding: 70px 20px;
+    }
+
+    .contact-hero h1 {
+        font-size: 40px;
+    }
+
+    .contact-hero p {
+        font-size: 14px;
+    }
+
+    .contact-main {
+        padding: 55px 0;
+    }
+
+    .contact-form-card {
+        padding: 25px;
+    }
+
+    .contact-form-header h2 {
+        font-size: 25px;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form-group.full-width {
+        grid-column: auto;
+    }
+
+    .contact-info-card {
+        padding: 25px;
+    }
+
+    .contact-process {
+        padding: 60px 0;
+    }
+
+    .contact-bottom-cta {
+        padding: 55px 0;
+    }
+
+    .contact-bottom-cta-box {
+        padding: 55px 20px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .contact-hero h1 {
+        font-size: 34px;
+    }
+
+    .contact-form-card {
+        padding: 20px;
+    }
+
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section about-section">
-    <div class="container about-grid">
-        <div class="about-visual"><img src="{% static 'shop/logo.png' %}" alt="Nqoba Creative"></div>
-        <div class="about-content">
-            <span class="section-label">CONTACT US</span>
-            <h2>LET'S BRING YOUR IDEAS TO LIFE!</h2>
-            <p>Ready to elevate your brand? Message us on WhatsApp or fill the form — we reply fast.</p>
-            <ul class="about-list">
-                <li>📞 +268 7833 6238</li>
-                <li>📞 +268 7971 7729</li>
-                <li>✉️ shabalalamancoba8@gmail.com</li>
-                <li>📍 Eswatini</li>
-            </ul>
-            <a href="https://wa.me/26878336238" class="btn btn-gold" target="_blank">Chat on WhatsApp →</a>
+
+<div class="contact-page">
+
+    <!-- ======================================
+         HERO
+    ====================================== -->
+
+    <section class="contact-hero">
+
+        <div class="container contact-hero-content">
+
+            <span class="contact-hero-label">
+                LET'S WORK TOGETHER
+            </span>
+
+            <h1>
+                LET'S BRING
+                <span>YOUR IDEA</span>
+                TO LIFE.
+            </h1>
+
+            <p>
+                Have a project in mind? Looking for
+                professional design services? Get in touch
+                with Nqoba Creative and let's create
+                something meaningful together.
+            </p>
+
         </div>
-    </div>
-</section>
-<section class="section" style="background: var(--off-white);">
-    <div class="container" style="max-width:700px;">
-        <div class="section-heading"><span class="section-label">SEND A MESSAGE</span>
-            <h2>Start Your Project</h2>
-            <p>Tell us what you need and we will reply on WhatsApp / Email.</p>
+
+    </section>
+
+    <!-- ======================================
+         CONTACT MAIN
+    ====================================== -->
+
+    <section class="contact-main">
+
+        <div class="container contact-layout">
+
+            <!-- CONTACT FORM -->
+
+            <div class="contact-form-card">
+
+                <div class="contact-form-header">
+
+                    <span>
+                        PROJECT ENQUIRY
+                    </span>
+
+                    <h2>
+                        Tell Us About Your Project
+                    </h2>
+
+                    <p>
+                        Complete the form below with your
+                        project details. Your enquiry will
+                        be prepared and sent through
+                        WhatsApp.
+                    </p>
+
+                </div>
+
+                <form id="contactForm">
+
+                    <div class="contact-form-grid">
+
+                        <!-- NAME -->
+
+                        <div class="contact-form-group">
+
+                            <label for="contactName">
+                                Full Name <span>*</span>
+                            </label>
+
+                            <input type="text"
+                                   id="contactName"
+                                   name="name"
+                                   placeholder="Enter your full name"
+                                   required>
+
+                        </div>
+
+                        <!-- EMAIL -->
+
+                        <div class="contact-form-group">
+
+                            <label for="contactEmail">
+                                Email Address <span>*</span>
+                            </label>
+
+                            <input type="email"
+                                   id="contactEmail"
+                                   name="email"
+                                   placeholder="example@email.com"
+                                   required>
+
+                        </div>
+
+                        <!-- PHONE -->
+
+                        <div class="contact-form-group">
+
+                            <label for="contactPhone">
+                                Phone Number <span>*</span>
+                            </label>
+
+                            <input type="tel"
+                                   id="contactPhone"
+                                   name="phone"
+                                   placeholder="+268 ..."
+                                   required>
+
+                        </div>
+
+                        <!-- SERVICE -->
+
+                        <div class="contact-form-group">
+
+                            <label for="contactService">
+                                Service Required <span>*</span>
+                            </label>
+
+                            <select id="contactService"
+                                    name="service"
+                                    required>
+
+                                <option value="">
+                                    Select a service
+                                </option>
+
+                                <option value="Logo Design">
+                                    Logo Design
+                                </option>
+
+                                <option value="Brand Identity">
+                                    Brand Identity
+                                </option>
+
+                                <option value="Business Cards">
+                                    Business Cards
+                                </option>
+
+                                <option value="Flyers">
+                                    Flyers
+                                </option>
+
+                                <option value="Posters">
+                                    Posters
+                                </option>
+
+                                <option value="Company Profiles">
+                                    Company Profiles
+                                </option>
+
+                                <option value="Brochures">
+                                    Brochures
+                                </option>
+
+                                <option value="Social Media Designs">
+                                    Social Media Designs
+                                </option>
+
+                                <option value="Banners and Signage">
+                                    Banners and Signage
+                                </option>
+
+                                <option value="Menus">
+                                    Menus
+                                </option>
+
+                                <option value="Packaging and Labels">
+                                    Packaging and Labels
+                                </option>
+
+                                <option value="Website Design">
+                                    Website Design
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- BUDGET -->
+
+                        <div class="contact-form-group full-width">
+
+                            <label for="contactBudget">
+                                Estimated Budget
+                            </label>
+
+                            <select id="contactBudget"
+                                    name="budget">
+
+                                <option value="">
+                                    Select your estimated budget
+                                </option>
+
+                                <option value="Below E500">
+                                    Below E500
+                                </option>
+
+                                <option value="E500 - E1,000">
+                                    E500 - E1,000
+                                </option>
+
+                                <option value="E1,000 - E2,500">
+                                    E1,000 - E2,500
+                                </option>
+
+                                <option value="E2,500 - E5,000">
+                                    E2,500 - E5,000
+                                </option>
+
+                                <option value="E5,000+">
+                                    E5,000+
+                                </option>
+
+                                <option value="Not sure yet">
+                                    Not sure yet
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- PROJECT DESCRIPTION -->
+
+                        <div class="contact-form-group full-width">
+
+                            <label for="contactMessage">
+                                Project Description <span>*</span>
+                            </label>
+
+                            <textarea id="contactMessage"
+                                      name="message"
+                                      placeholder="Tell us about your project, ideas, requirements and what you would like us to create..."
+                                      required></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <!-- NOTICE -->
+
+                    <div class="contact-form-notice"
+                         id="contactNotice">
+
+                        Your enquiry is ready. WhatsApp will open
+                        with your project details. Please send
+                        the message to complete your enquiry.
+
+                    </div>
+
+                    <!-- SUBMIT -->
+
+                    <button type="submit"
+                            class="contact-submit">
+
+                        SEND PROJECT ENQUIRY
+
+                        <span>→</span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- CONTACT INFORMATION -->
+
+            <div class="contact-info-column">
+
+                <!-- DETAILS -->
+
+                <div class="contact-info-card">
+
+                    <div class="contact-info-header">
+
+                        <h2>
+                            Contact Information
+                        </h2>
+
+                        <p>
+                            Have questions or need assistance?
+                            Reach out to us through any of
+                            the following channels.
+                        </p>
+
+                    </div>
+
+                    <!-- PHONE -->
+
+                    <div class="contact-info-item">
+
+                        <div class="contact-info-icon">
+                            ☎
+                        </div>
+
+                        <div>
+
+                            <h3>Phone / WhatsApp</h3>
+
+                            <a href="https://wa.me/26878336238"
+                               target="_blank"
+                               rel="noopener noreferrer">
+
+                                +268 7833 6238
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- LOCATION -->
+
+                    <div class="contact-info-item">
+
+                        <div class="contact-info-icon">
+                            ⌖
+                        </div>
+
+                        <div>
+
+                            <h3>Location</h3>
+
+                            <p>
+                                Mbabane, Eswatini
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BUSINESS -->
+
+                    <div class="contact-info-item">
+
+                        <div class="contact-info-icon">
+                            ✦
+                        </div>
+
+                        <div>
+
+                            <h3>Business</h3>
+
+                            <p>
+                                Nqoba Creative
+                                <br>
+                                Graphic Design & Visual Branding
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- WHATSAPP -->
+
+                <div class="contact-whatsapp-card">
+
+                    <h2>
+                        Prefer WhatsApp?
+                    </h2>
+
+                    <p>
+                        Contact us directly for quick
+                        enquiries, project discussions,
+                        quotations and updates.
+                    </p>
+
+                    <a href="https://wa.me/26878336238"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        <span>✆</span>
+
+                        Chat With Us
+
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
-        <form class="contact-form" action="https://wa.me/26878336238" method="get" target="_blank"
-            onsubmit="let n=this.name.value; let m=this.message.value; this.action='https://wa.me/26878336238?text='+encodeURIComponent('Hi Nqoba Creative, I am '+n+'. '+m);">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="text" name="phone" placeholder="Your Phone / WhatsApp" required>
-            <textarea name="message" rows="5" placeholder="What do you need? e.g. Logo Design, Flyer, Business Card..."
-                required></textarea>
-            <button type="submit" class="btn btn-gold" style="width:100%; border:none; cursor:pointer;">Send on WhatsApp
-                →</button>
-        </form>
-    </div>
-</section>
+
+    </section>
+
+    <!-- ======================================
+         HOW IT WORKS
+    ====================================== -->
+
+    <section class="contact-process">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    WHAT HAPPENS NEXT
+                </span>
+
+                <h2>
+                    Our Project Process
+                </h2>
+
+                <p>
+                    We make the process simple, transparent
+                    and professional from your first enquiry
+                    to the final delivery.
+                </p>
+
+            </div>
+
+            <div class="contact-process-grid">
+
+                <div class="contact-process-card">
+
+                    <div class="contact-process-number">
+                        01
+                    </div>
+
+                    <h3>Send Your Enquiry</h3>
+
+                    <p>
+                        Tell us about your project,
+                        requirements and creative ideas.
+                    </p>
+
+                </div>
+
+                <div class="contact-process-card">
+
+                    <div class="contact-process-number">
+                        02
+                    </div>
+
+                    <h3>Discuss & Quote</h3>
+
+                    <p>
+                        We discuss your requirements
+                        and provide a quotation based
+                        on your project.
+                    </p>
+
+                </div>
+
+                <div class="contact-process-card">
+
+                    <div class="contact-process-number">
+                        03
+                    </div>
+
+                    <h3>Design & Create</h3>
+
+                    <p>
+                        We develop your creative project
+                        and work with you through
+                        the design process.
+                    </p>
+
+                </div>
+
+                <div class="contact-process-card">
+
+                    <div class="contact-process-number">
+                        04
+                    </div>
+
+                    <h3>Final Delivery</h3>
+
+                    <p>
+                        Your approved design is prepared
+                        and delivered in the agreed
+                        format.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         CTA
+    ====================================== -->
+
+    <section class="contact-bottom-cta">
+
+        <div class="container">
+
+            <div class="contact-bottom-cta-box">
+
+                <h2>
+                    READY TO CREATE
+                    <span>SOMETHING AMAZING?</span>
+                </h2>
+
+                <p>
+                    Your ideas deserve professional
+                    presentation. Let Nqoba Creative
+                    help you make an impact.
+                </p>
+
+                <a href="{% url 'services' %}"
+                   class="btn btn-gold">
+
+                    Explore Our Services →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ==========================================
+     CONTACT FORM JAVASCRIPT
+========================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form =
+        document.getElementById("contactForm");
+
+    const notice =
+        document.getElementById("contactNotice");
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+
+            form.reportValidity();
+
+            return;
+
+        }
+
+        const name =
+            document.getElementById("contactName").value.trim();
+
+        const email =
+            document.getElementById("contactEmail").value.trim();
+
+        const phone =
+            document.getElementById("contactPhone").value.trim();
+
+        const service =
+            document.getElementById("contactService").value;
+
+        const budget =
+            document.getElementById("contactBudget").value;
+
+        const message =
+            document.getElementById("contactMessage").value.trim();
+
+        const whatsappMessage =
+
+            "NEW PROJECT ENQUIRY - NQOBA CREATIVE\n\n" +
+
+            "Name: " + name + "\n" +
+
+            "Email: " + email + "\n" +
+
+            "Phone: " + phone + "\n\n" +
+
+            "Service Required: " + service + "\n" +
+
+            "Estimated Budget: " +
+            (budget || "Not specified") + "\n\n" +
+
+            "Project Description:\n" +
+            message + "\n\n" +
+
+            "Sent through the Nqoba Creative website.";
+
+        const whatsappURL =
+
+            "https://wa.me/26878336238?text=" +
+
+            encodeURIComponent(whatsappMessage);
+
+        notice.style.display = "block";
+
+        notice.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+        window.open(
+            whatsappURL,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    });
+
+});
+
+</script>
+
 {% endblock %}

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Progress | Nqoba Creative</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #1f2937;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            background: #064e3b;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #d4af37;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #064e3b;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        /* TRACKING HEADER */
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tracking-number {
+            font-size: 23px;
+            font-weight: bold;
+            color: #064e3b;
+            word-break: break-word;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #d1fae5;
+            color: #065f46;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        /* PROGRESS SECTION */
+        .progress-section {
+            margin-top: 30px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #e5e7eb;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg,
+                    #064e3b,
+                    #10b981);
+            border-radius: 50px;
+            transition: width 0.5s ease;
+        }
+
+        /* PROGRESS WIDTH CLASSES */
+        .progress-0 {
+            width: 0%;
+        }
+
+        .progress-10 {
+            width: 10%;
+        }
+
+        .progress-20 {
+            width: 20%;
+        }
+
+        .progress-50 {
+            width: 50%;
+        }
+
+        .progress-75 {
+            width: 75%;
+        }
+
+        .progress-85 {
+            width: 85%;
+        }
+
+        .progress-95 {
+            width: 95%;
+        }
+
+        .progress-100 {
+            width: 100%;
+        }
+
+        /* INFORMATION GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-box {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            font-size: 17px;
+            color: #064e3b;
+            word-break: break-word;
+        }
+
+        /* PAYMENT */
+        .payment-box {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+        }
+
+        .balance {
+            color: #b45309;
+        }
+
+        .paid {
+            color: #047857;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            margin-top: 25px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #d1fae5;
+            color: #065f46;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .timeline-text strong {
+            display: block;
+            color: #064e3b;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text span {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* UPDATE NOTE */
+        .note-box {
+            padding: 20px;
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            border-radius: 5px;
+            line-height: 1.7;
+        }
+
+        /* BUTTONS */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .primary {
+            background: #064e3b;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #047857;
+        }
+
+        .secondary {
+            background: #d4af37;
+            color: #064e3b;
+        }
+
+        .secondary:hover {
+            background: #e5c454;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 650px) {
+            .container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracking-header {
+                align-items: flex-start;
+            }
+
+            .navbar {
+                padding: 20px;
+            }
+
+            .navbar a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+
+            .tracking-number {
+                font-size: 19px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+
+        <div class="brand">
+            NQOBA CREATIVE
+        </div>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/services/">Services</a>
+            <a href="/track-order/">Track Order</a>
+        </div>
+
+    </nav>
+
+    <div class="container">
+
+        <!-- ORDER HEADER -->
+        <div class="card">
+
+            <div class="tracking-header">
+
+                <div>
+                    <h1>Order Tracking</h1>
+
+                    <div class="tracking-number">
+                        {{ order.tracking_number }}
+                    </div>
+                </div>
+
+                <div class="status-badge">
+                    {{ order.get_status_display }}
+                </div>
+
+            </div>
+
+            <!-- PROGRESS -->
+            <div class="progress-section">
+
+                <div class="progress-info">
+
+                    <span>Order Progress</span>
+
+                    <span>
+                        {{ order.progress_percentage }}%
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div class="progress-fill
+                    {% if order.progress_percentage == 0 %}progress-0
+                    {% elif order.progress_percentage == 10 %}progress-10
+                    {% elif order.progress_percentage == 20 %}progress-20
+                    {% elif order.progress_percentage == 50 %}progress-50
+                    {% elif order.progress_percentage == 75 %}progress-75
+                    {% elif order.progress_percentage == 85 %}progress-85
+                    {% elif order.progress_percentage == 95 %}progress-95
+                    {% elif order.progress_percentage == 100 %}progress-100
+                    {% endif %}">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ORDER INFORMATION -->
+        <div class="card">
+
+            <h2>Order Information</h2>
+
+            <div class="grid">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Customer
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.customer_name }}
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Service
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.service.name }}
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Quantity
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.quantity }}
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Order Date
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.created_at|date:"d M Y" }}
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Required Deadline
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.deadline|date:"d M Y" }}
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Last Updated
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.updated_at|date:"d M Y, H:i" }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PAYMENT INFORMATION -->
+        <div class="card">
+
+            <h2>Payment Information</h2>
+
+            <div class="grid">
+
+                <div class="info-box payment-box">
+
+                    <div class="info-label">
+                        Quoted Price
+                    </div>
+
+                    <div class="info-value">
+                        E{{ order.quoted_price|floatformat:2 }}
+                    </div>
+
+                </div>
+
+                <div class="info-box payment-box">
+
+                    <div class="info-label">
+                        Amount Paid
+                    </div>
+
+                    <div class="info-value paid">
+                        E{{ order.amount_paid|floatformat:2 }}
+                    </div>
+
+                </div>
+
+                <div class="info-box payment-box">
+
+                    <div class="info-label">
+                        Outstanding Balance
+                    </div>
+
+                    <div class="info-value balance">
+                        E{{ order.balance|floatformat:2 }}
+                    </div>
+
+                </div>
+
+                <div class="info-box payment-box">
+
+                    <div class="info-label">
+                        Payment Status
+                    </div>
+
+                    <div class="info-value">
+                        {{ order.get_payment_status_display }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DESIGN DETAILS -->
+        <div class="card">
+
+            <h2>Design Requirements</h2>
+
+            <p style="line-height: 1.8;">
+                {{ order.details }}
+            </p>
+
+        </div>
+
+        <!-- PROGRESS NOTE -->
+        <div class="card">
+
+            <h2>Latest Update</h2>
+
+            <div class="note-box">
+
+                {% if order.progress_note %}
+
+                {{ order.progress_note|linebreaks }}
+
+                {% else %}
+
+                Your order has been received.
+                Our team will review your requirements and update
+                your order progress shortly.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- ORDER TIMELINE -->
+        <div class="card">
+
+            <h2>Order Journey</h2>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        1
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Order Received</strong>
+
+                        <span>
+                            Your order has been submitted successfully.
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        2
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Order Confirmed</strong>
+
+                        <span>
+                            Your order and requirements are being reviewed.
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        3
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Design In Progress</strong>
+
+                        <span>
+                            Our designer is working on your project.
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        4
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Client Review</strong>
+
+                        <span>
+                            Your design is ready for review and feedback.
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        5
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Completed</strong>
+
+                        <span>
+                            Your design has been completed.
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        6
+                    </div>
+
+                    <div class="timeline-text">
+
+                        <strong>Delivered</strong>
+
+                        <span>
+                            Your final files have been delivered.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="buttons">
+
+            <a href="/track-order/" class="btn primary">
+                Track Another Order
+            </a>
+
+            <a href="/order/" class="btn secondary">
+                Place New Order
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        &copy; {% now "Y" %} Nqoba Creative.
+        Ideas Into Impact.
+
+    </footer>
+
+</body>
+
+</html>

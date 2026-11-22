@@ -1,121 +1,1224 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+
+{% block title %}About Us | Nqoba Creative{% endblock %}
+
+{% block meta_description %}
+Learn about Nqoba Creative, our vision, mission, values and commitment to professional graphic design and visual
+branding.
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ==========================================
+   ABOUT PAGE
+========================================== */
+
+    .about-page {
+        background: #F7F8F5;
+    }
+
+    /* HERO */
+
+    .about-hero {
+        background:
+            radial-gradient(circle at 85% 15%,
+                rgba(212, 175, 55, 0.15),
+                transparent 30%),
+            linear-gradient(135deg,
+                #021F16,
+                #063B2A,
+                #0A4B35);
+
+        padding: 100px 0;
+
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-hero::before {
+        content: "";
+
+        position: absolute;
+
+        width: 550px;
+        height: 550px;
+
+        border: 1px solid rgba(212, 175, 55, 0.15);
+        border-radius: 50%;
+
+        right: -200px;
+        top: -200px;
+    }
+
+    .about-hero-content {
+        position: relative;
+        z-index: 2;
+
+        max-width: 900px;
+
+        margin: 0 auto;
+
+        text-align: center;
+    }
+
+    .about-hero-label {
+        display: inline-block;
+
+        color: #D4AF37;
+
+        border: 1px solid rgba(212, 175, 55, 0.5);
+
+        padding: 10px 18px;
+
+        border-radius: 50px;
+
+        font-size: 11px;
+        font-weight: 800;
+
+        letter-spacing: 2px;
+
+        text-transform: uppercase;
+
+        margin-bottom: 25px;
+    }
+
+    .about-hero h1 {
+        color: #FFFFFF;
+
+        font-size: clamp(38px, 6vw, 65px);
+
+        line-height: 1.1;
+
+        font-weight: 900;
+
+        margin-bottom: 25px;
+    }
+
+    .about-hero h1 span {
+        color: #D4AF37;
+    }
+
+    .about-hero p {
+        color: #D1DDD7;
+
+        font-size: 16px;
+
+        line-height: 1.9;
+
+        max-width: 700px;
+
+        margin: 0 auto;
+    }
+
+    /* ==========================================
+   COMPANY INTRO
+========================================== */
+
+    .about-story {
+        padding: 100px 0;
+
+        background: #FFFFFF;
+    }
+
+    .about-story-grid {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        align-items: center;
+
+        gap: 60px;
+    }
+
+    .about-story-visual {
+        background:
+            linear-gradient(135deg,
+                #021F16,
+                #063B2A);
+
+        border-radius: 20px;
+
+        min-height: 450px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 50px;
+
+        position: relative;
+        overflow: hidden;
+
+        box-shadow: 0 20px 60px rgba(6, 59, 42, 0.12);
+    }
+
+    .about-story-visual::before {
+        content: "";
+
+        position: absolute;
+
+        width: 350px;
+        height: 350px;
+
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 50%;
+    }
+
+    .about-story-visual::after {
+        content: "";
+
+        position: absolute;
+
+        width: 250px;
+        height: 250px;
+
+        border: 1px solid rgba(212, 175, 55, 0.15);
+        border-radius: 50%;
+    }
+
+    .about-story-visual img {
+        width: 80%;
+        max-width: 320px;
+
+        object-fit: contain;
+
+        position: relative;
+        z-index: 2;
+    }
+
+    .about-story-content .section-label {
+        margin-bottom: 15px;
+    }
+
+    .about-story-content h2 {
+        color: #063B2A;
+
+        font-size: clamp(28px, 4vw, 42px);
+
+        line-height: 1.2;
+
+        font-weight: 900;
+
+        margin-bottom: 25px;
+    }
+
+    .about-story-content p {
+        color: #64748B;
+
+        font-size: 15px;
+
+        line-height: 1.9;
+
+        margin-bottom: 18px;
+    }
+
+    .about-story-highlight {
+        border-left: 4px solid #D4AF37;
+
+        background: #FBF6E3;
+
+        padding: 20px 25px;
+
+        margin-top: 25px;
+
+        border-radius: 0 8px 8px 0;
+    }
+
+    .about-story-highlight p {
+        color: #063B2A;
+
+        font-weight: 700;
+
+        margin-bottom: 0;
+    }
+
+    /* ==========================================
+   MISSION / VISION
+========================================== */
+
+    .mission-vision {
+        padding: 90px 0;
+
+        background: #F7F8F5;
+    }
+
+    .mission-vision-grid {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 25px;
+    }
+
+    .mv-card {
+        background: #FFFFFF;
+
+        border: 1px solid #E6EAE5;
+
+        border-radius: 15px;
+
+        padding: 40px;
+
+        transition: 0.3s;
+    }
+
+    .mv-card:hover {
+        transform: translateY(-5px);
+
+        border-color: #D4AF37;
+
+        box-shadow: 0 15px 40px rgba(6, 59, 42, 0.08);
+    }
+
+    .mv-card-icon {
+        width: 60px;
+        height: 60px;
+
+        background: #063B2A;
+        color: #D4AF37;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        font-size: 25px;
+
+        margin-bottom: 25px;
+    }
+
+    .mv-card h2 {
+        color: #063B2A;
+
+        font-size: 23px;
+
+        font-weight: 900;
+
+        margin-bottom: 20px;
+    }
+
+    .mv-card p {
+        color: #64748B;
+
+        font-size: 15px;
+
+        line-height: 1.9;
+    }
+
+    /* ==========================================
+   VALUES
+========================================== */
+
+    .values-section {
+        padding: 100px 0;
+
+        background: #FFFFFF;
+    }
+
+    .values-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(230px, 1fr));
+
+        gap: 25px;
+    }
+
+    .value-card {
+        background: #F7F8F5;
+
+        border: 1px solid #E6EAE5;
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        transition: 0.3s;
+    }
+
+    .value-card:hover {
+        transform: translateY(-5px);
+
+        border-color: #D4AF37;
+
+        box-shadow: 0 12px 30px rgba(6, 59, 42, 0.08);
+    }
+
+    .value-card-icon {
+        width: 55px;
+        height: 55px;
+
+        background: #FBF6E3;
+
+        color: #063B2A;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        font-size: 24px;
+
+        margin-bottom: 20px;
+    }
+
+    .value-card h3 {
+        color: #063B2A;
+
+        font-size: 17px;
+
+        font-weight: 900;
+
+        margin-bottom: 12px;
+    }
+
+    .value-card p {
+        color: #64748B;
+
+        font-size: 13px;
+
+        line-height: 1.8;
+    }
+
+    /* ==========================================
+   OUR APPROACH
+========================================== */
+
+    .approach-section {
+        background:
+            linear-gradient(135deg,
+                #021F16,
+                #063B2A);
+
+        padding: 100px 0;
+    }
+
+    .approach-section .section-heading h2 {
+        color: #FFFFFF;
+    }
+
+    .approach-section .section-heading p {
+        color: #D1DDD7;
+    }
+
+    .approach-grid {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 25px;
+    }
+
+    .approach-card {
+        background: rgba(255, 255, 255, 0.04);
+
+        border: 1px solid rgba(212, 175, 55, 0.25);
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        transition: 0.3s;
+    }
+
+    .approach-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+
+        transform: translateY(-5px);
+    }
+
+    .approach-number {
+        color: #D4AF37;
+
+        font-size: 30px;
+
+        font-weight: 900;
+
+        margin-bottom: 20px;
+    }
+
+    .approach-card h3 {
+        color: #FFFFFF;
+
+        font-size: 17px;
+
+        font-weight: 900;
+
+        margin-bottom: 15px;
+    }
+
+    .approach-card p {
+        color: #D1DDD7;
+
+        font-size: 13px;
+
+        line-height: 1.8;
+    }
+
+    /* ==========================================
+   SERVICES OVERVIEW
+========================================== */
+
+    .about-services {
+        padding: 100px 0;
+
+        background: #FFFFFF;
+    }
+
+    .about-services-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 20px;
+    }
+
+    .about-service-item {
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+        padding: 25px;
+
+        border: 1px solid #E6EAE5;
+
+        border-radius: 10px;
+
+        transition: 0.3s;
+    }
+
+    .about-service-item:hover {
+        border-color: #D4AF37;
+
+        background: #FBF6E3;
+    }
+
+    .about-service-check {
+        width: 35px;
+        height: 35px;
+
+        background: #063B2A;
+
+        color: #D4AF37;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        font-weight: 900;
+    }
+
+    .about-service-item h3 {
+        color: #063B2A;
+
+        font-size: 15px;
+
+        font-weight: 900;
+
+        margin-bottom: 8px;
+    }
+
+    .about-service-item p {
+        color: #64748B;
+
+        font-size: 13px;
+
+        line-height: 1.7;
+    }
+
+    /* ==========================================
+   CTA
+========================================== */
+
+    .about-cta {
+        padding: 80px 0;
+    }
+
+    .about-cta-box {
+        background:
+            radial-gradient(circle at 90% 10%,
+                rgba(212, 175, 55, 0.12),
+                transparent 30%),
+            linear-gradient(135deg,
+                #021F16,
+                #063B2A);
+
+        border-radius: 18px;
+
+        padding: 75px 30px;
+
+        text-align: center;
+
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-cta-box h2 {
+        color: #FFFFFF;
+
+        font-size: clamp(30px, 5vw, 48px);
+
+        font-weight: 900;
+
+        line-height: 1.2;
+
+        margin-bottom: 20px;
+    }
+
+    .about-cta-box h2 span {
+        color: #D4AF37;
+    }
+
+    .about-cta-box p {
+        color: #D1DDD7;
+
+        font-size: 15px;
+
+        line-height: 1.8;
+
+        max-width: 650px;
+
+        margin: 0 auto 30px;
+    }
+
+    .about-cta-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 15px;
+    }
+
+    /* ==========================================
+   RESPONSIVE
+========================================== */
+
+    @media (max-width: 1000px) {
+
+        .about-story-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .about-story-visual {
+            min-height: 350px;
+        }
+
+        .approach-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+    }
+
+    @media (max-width: 768px) {
+
+        .about-hero {
+            padding: 70px 20px;
+        }
+
+        .about-hero h1 {
+            font-size: 40px;
+        }
+
+        .about-hero p {
+            font-size: 14px;
+        }
+
+        .about-story {
+            padding: 65px 0;
+        }
+
+        .about-story-visual {
+            min-height: 300px;
+
+            padding: 30px;
+        }
+
+        .mission-vision {
+            padding: 65px 0;
+        }
+
+        .mission-vision-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .mv-card {
+            padding: 30px;
+        }
+
+        .values-section {
+            padding: 65px 0;
+        }
+
+        .approach-section {
+            padding: 65px 0;
+        }
+
+        .approach-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .about-services {
+            padding: 65px 0;
+        }
+
+        .about-services-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .about-cta {
+            padding: 50px 0;
+        }
+
+        .about-cta-box {
+            padding: 55px 20px;
+        }
+
+    }
+
+    @media (max-width: 480px) {
+
+        .about-hero h1 {
+            font-size: 34px;
+        }
+
+        .about-cta-buttons {
+            flex-direction: column;
+        }
+
+        .about-cta-buttons .btn {
+            width: 100%;
+        }
+
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section about-section">
-    <div class="container about-grid">
-        <div class="about-visual"><img src="{% static 'shop/logo.png' %}" alt="Nqoba Creative Logo"></div>
-        <div class="about-content"><span class="section-label">ABOUT NQOBA CREATIVE</span>
-            <h2>YOUR IDEAS. OUR CREATIVITY. ONE POWERFUL BRAND.</h2>
-            <p>Nqoba Creative is a graphic design and visual branding agency focused on helping businesses and
-                individuals communicate their ideas through powerful visual designs.</p>
-            <p>We believe that great design is more than just beautiful graphics. It is about communicating your
-                message, building your brand and connecting with your audience.</p>
-            <ul class="about-list">
-                <li>Creative and original designs</li>
-                <li>Professional branding solutions</li>
-                <li>Quality and attention to detail</li>
-                <li>Customer-focused service</li>
-                <li>Designs that make an impact</li>
-            </ul><a href="https://wa.me/26878336238" class="btn btn-gold" target="_blank">Let's Work Together →</a>
+
+<div class="about-page">
+
+    <!-- ======================================
+         HERO
+    ====================================== -->
+
+    <section class="about-hero">
+
+        <div class="container about-hero-content">
+
+            <span class="about-hero-label">
+                ABOUT NQOBA CREATIVE
+            </span>
+
+            <h1>
+                YOUR IDEAS.
+                <span>OUR CREATIVITY.</span>
+                <br>
+                ONE POWERFUL BRAND.
+            </h1>
+
+            <p>
+                We are a creative design and visual branding
+                agency passionate about transforming ideas
+                into meaningful visual experiences.
+            </p>
+
         </div>
-    </div>
-</section>
-<section class="creative-sec">
-    <div class="container">
-        <div class="creative-box">
-            <div class="creative-grid">
-                <div>
-                    <h2>Creative Design<br>with Refreshing<br>Ideas</h2>
-                    <p>We believe great design is more than beautiful graphics. It is about communicating your message,
-                        building your brand and connecting with your audience in Eswatini and beyond.</p>
-                </div>
-                <div>
-                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}">
-                        <div>
-                            <h4>Vision</h4>
-                            <p>To be Eswatini's most trusted creative brand — designs that inspire and sell.</p>
-                        </div>
-                    </div>
-                    <div class="vision-card"><img src="{% static 'shop/logo.png' %}">
-                        <div>
-                            <h4>Mission</h4>
-                            <p>To turn your ideas into designs that attract customers and grow your business.</p>
-                        </div>
-                    </div>
-                </div>
+
+    </section>
+
+    <!-- ======================================
+         OUR STORY
+    ====================================== -->
+
+    <section class="about-story">
+
+        <div class="container about-story-grid">
+
+            <div class="about-story-visual">
+
+                <img src="{% static 'shop/logo.png' %}" alt="Nqoba Creative">
+
             </div>
-            <div class="stats-row">
-                <div class="stat-num">
-                    <h3>100+</h3>
-                    <p>Completed Projects</p>
+
+            <div class="about-story-content">
+
+                <span class="section-label">
+                    WHO WE ARE
+                </span>
+
+                <h2>
+                    Creative Ideas.
+                    <br>
+                    Meaningful Impact.
+                </h2>
+
+                <p>
+                    Nqoba Creative is a graphic design and
+                    visual branding agency dedicated to
+                    helping businesses, organisations and
+                    individuals communicate their ideas
+                    through professional design.
+                </p>
+
+                <p>
+                    We believe every brand has a story to tell.
+                    Through creativity, thoughtful design
+                    and attention to detail, we help transform
+                    that story into a visual identity that
+                    captures attention and creates impact.
+                </p>
+
+                <p>
+                    From logos and business cards to flyers,
+                    posters, company profiles, social media
+                    graphics and other marketing materials,
+                    we deliver creative solutions designed
+                    around your vision.
+                </p>
+
+                <div class="about-story-highlight">
+
+                    <p>
+                        "Ideas Into Impact" — turning your
+                        ideas into designs that communicate,
+                        inspire and make a lasting impression.
+                    </p>
+
                 </div>
-                <div class="stat-num">
-                    <h3>3+</h3>
-                    <p>Years Experience</p>
-                </div>
-                <div class="stat-num">
-                    <h3>75+</h3>
-                    <p>Happy Clients</p>
-                </div>
-                <div class="stat-num">
-                    <h3>4+</h3>
-                    <p>Awards Winning</p>
-                </div>
+
             </div>
+
         </div>
-    </div>
-</section>
-<section class="exp-section">
-    <div class="container">
-        <div class="exp-box">
-            <div>
-                <h2>My Experience<br>and Skills</h2>
-                <div class="timeline-item"><small>2023 - PRESENT</small>
-                    <h4>Graphic Designer</h4>
-                    <p>Nqoba Creative - Branding, Logos, Marketing Materials</p>
-                </div>
-                <div class="timeline-item"><small>2022 - 2023</small>
-                    <h4>Website Designer</h4>
-                    <p>Business websites, Landing pages, Portfolio sites</p>
-                </div>
-                <div class="timeline-item"><small>2021 - 2022</small>
-                    <h4>UI/UX Designer</h4>
-                    <p>Clean, modern, user-friendly designs</p>
-                </div>
+
+    </section>
+
+    <!-- ======================================
+         MISSION & VISION
+    ====================================== -->
+
+    <section class="mission-vision">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    OUR PURPOSE
+                </span>
+
+                <h2>
+                    What Drives Us
+                </h2>
+
+                <p>
+                    Our mission and vision guide every
+                    creative decision we make.
+                </p>
+
             </div>
-            <div>
-                <div class="skill">
-                    <div class="skill-top"><span>Graphic Designer</span><span>95%</span></div>
-                    <div class="bar">
-                        <div class="bar-fill" style="width:95%"></div>
+
+            <div class="mission-vision-grid">
+
+                <div class="mv-card">
+
+                    <div class="mv-card-icon">
+                        ✦
                     </div>
+
+                    <h2>Our Mission</h2>
+
+                    <p>
+                        To transform ideas into professional,
+                        creative and meaningful visual designs
+                        that help businesses and individuals
+                        communicate effectively, build their
+                        brands and connect with their audiences.
+                    </p>
+
                 </div>
-                <div class="skill">
-                    <div class="skill-top"><span>UI/UX</span><span>85%</span></div>
-                    <div class="bar">
-                        <div class="bar-fill" style="width:85%"></div>
+
+                <div class="mv-card">
+
+                    <div class="mv-card-icon">
+                        ◆
                     </div>
+
+                    <h2>Our Vision</h2>
+
+                    <p>
+                        To become a trusted creative brand
+                        recognised for inspiring ideas,
+                        professional design, visual excellence
+                        and impactful creative solutions.
+                    </p>
+
                 </div>
-                <div class="skill">
-                    <div class="skill-top"><span>Branding</span><span>90%</span></div>
-                    <div class="bar">
-                        <div class="bar-fill" style="width:90%"></div>
-                    </div>
-                </div>
-                <div class="skill">
-                    <div class="skill-top"><span>Web Development</span><span>80%</span></div>
-                    <div class="bar">
-                        <div class="bar-fill" style="width:80%"></div>
-                    </div>
-                </div>
-                <div class="skill">
-                    <div class="skill-top"><span>Marketing Design</span><span>88%</span></div>
-                    <div class="bar">
-                        <div class="bar-fill" style="width:88%"></div>
-                    </div>
-                </div>
+
             </div>
+
         </div>
-    </div>
-</section>
+
+    </section>
+
+    <!-- ======================================
+         CORE VALUES
+    ====================================== -->
+
+    <section class="values-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    WHAT WE BELIEVE IN
+                </span>
+
+                <h2>
+                    Our Core Values
+                </h2>
+
+                <p>
+                    The principles that shape our work,
+                    our relationships and our commitment
+                    to every project.
+                </p>
+
+            </div>
+
+            <div class="values-grid">
+
+                <div class="value-card">
+
+                    <div class="value-card-icon">
+                        ✦
+                    </div>
+
+                    <h3>Creativity</h3>
+
+                    <p>
+                        We embrace fresh ideas, creative
+                        thinking and innovative approaches
+                        to design.
+                    </p>
+
+                </div>
+
+                <div class="value-card">
+
+                    <div class="value-card-icon">
+                        ◆
+                    </div>
+
+                    <h3>Professionalism</h3>
+
+                    <p>
+                        We approach every project with
+                        dedication, responsibility and
+                        professional standards.
+                    </p>
+
+                </div>
+
+                <div class="value-card">
+
+                    <div class="value-card-icon">
+                        ✓
+                    </div>
+
+                    <h3>Quality</h3>
+
+                    <p>
+                        We focus on detail, consistency
+                        and delivering designs that
+                        represent our clients well.
+                    </p>
+
+                </div>
+
+                <div class="value-card">
+
+                    <div class="value-card-icon">
+                        ♡
+                    </div>
+
+                    <h3>Client Commitment</h3>
+
+                    <p>
+                        We value our clients' ideas,
+                        requirements and feedback
+                        throughout every project.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         OUR APPROACH
+    ====================================== -->
+
+    <section class="approach-section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    OUR CREATIVE APPROACH
+                </span>
+
+                <h2>
+                    We Make Ideas Come Alive
+                </h2>
+
+                <p>
+                    Every project is an opportunity to
+                    communicate a message, tell a story
+                    and create something meaningful.
+                </p>
+
+            </div>
+
+            <div class="approach-grid">
+
+                <div class="approach-card">
+
+                    <div class="approach-number">
+                        01
+                    </div>
+
+                    <h3>Understand</h3>
+
+                    <p>
+                        We listen to your ideas, understand
+                        your goals and identify the message
+                        you want your design to communicate.
+                    </p>
+
+                </div>
+
+                <div class="approach-card">
+
+                    <div class="approach-number">
+                        02
+                    </div>
+
+                    <h3>Create</h3>
+
+                    <p>
+                        We use creative thinking,
+                        professional design principles
+                        and visual storytelling to
+                        bring your ideas to life.
+                    </p>
+
+                </div>
+
+                <div class="approach-card">
+
+                    <div class="approach-number">
+                        03
+                    </div>
+
+                    <h3>Deliver</h3>
+
+                    <p>
+                        We refine the design, incorporate
+                        feedback and deliver a creative
+                        solution aligned with your vision.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         OUR SERVICES
+    ====================================== -->
+
+    <section class="about-services">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <span class="section-label">
+                    WHAT WE OFFER
+                </span>
+
+                <h2>
+                    Creative Solutions
+                    For Every Need
+                </h2>
+
+                <p>
+                    We provide a range of creative services
+                    designed to help brands communicate
+                    professionally and effectively.
+                </p>
+
+            </div>
+
+            <div class="about-services-grid">
+
+                <div class="about-service-item">
+
+                    <div class="about-service-check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>Branding & Identity</h3>
+
+                        <p>
+                            Logo design, business cards,
+                            brand identity and visual branding.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="about-service-item">
+
+                    <div class="about-service-check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>Marketing Materials</h3>
+
+                        <p>
+                            Flyers, posters, promotional
+                            graphics and advertising designs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="about-service-item">
+
+                    <div class="about-service-check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>Business Documents</h3>
+
+                        <p>
+                            Company profiles, brochures,
+                            menus, invoices and other
+                            business materials.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="about-service-item">
+
+                    <div class="about-service-check">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>Digital Design</h3>
+
+                        <p>
+                            Social media graphics,
+                            digital advertising and
+                            online promotional materials.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div style="text-align:center; margin-top:40px;">
+
+                <a href="{% url 'services' %}" class="btn btn-primary">
+
+                    Explore Our Services →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================
+         FINAL CTA
+    ====================================== -->
+
+    <section class="about-cta">
+
+        <div class="container">
+
+            <div class="about-cta-box">
+
+                <h2>
+                    LET'S CREATE
+                    <span>SOMETHING GREAT.</span>
+                </h2>
+
+                <p>
+                    Have an idea, business or project that
+                    needs a creative touch? We would love
+                    to hear from you and help bring your
+                    vision to life.
+                </p>
+
+                <div class="about-cta-buttons">
+
+                    <a href="{% url 'services' %}" class="btn btn-gold">
+
+                        Explore Our Services →
+
+                    </a>
+
+                    <a href="{% url 'contact' %}" class="btn btn-outline">
+
+                        Contact Us
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
 {% endblock %}

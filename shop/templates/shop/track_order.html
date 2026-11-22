@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Your Order | Nqoba Creative</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #064e3b;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 70px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 45px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #064e3b;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f766e;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #064e3b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0f766e;
+        }
+
+        .message {
+            padding: 15px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .found-order {
+            margin-top: 30px;
+            padding: 25px;
+            background: #ecfdf5;
+            border-radius: 10px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .found-order h3 {
+            color: #064e3b;
+        }
+
+        .tracking-number {
+            font-size: 22px;
+            font-weight: bold;
+            color: #064e3b;
+            word-break: break-word;
+        }
+
+        .view-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 13px 25px;
+            background: #d4af37;
+            color: #064e3b;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                margin: 30px auto;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .navbar {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">NQOBA CREATIVE</div>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/order/">Place Order</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="icon">📦</div>
+
+            <h1>Track Your Order</h1>
+
+            <p class="description">
+                Enter your unique tracking number below to check the
+                current progress of your design order.
+            </p>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <input type="text" name="tracking_number" placeholder="NQ-XXXXXXXX" value="{{ tracking_number }}"
+                    required>
+
+                <button type="submit">
+                    Track My Order
+                </button>
+            </form>
+
+            {% if order %}
+
+            <div class="found-order">
+
+                <h3>Order Found!</h3>
+
+                <p>
+                    Your order tracking number is:
+                </p>
+
+                <div class="tracking-number">
+                    {{ order.tracking_number }}
+                </div>
+
+                <a href="{% url 'order_tracking' order.tracking_number %}" class="view-button">
+                    View Order Progress
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        &copy; {% now "Y" %} Nqoba Creative.
+        Ideas Into Impact.
+    </footer>
+
+</body>
+
+</html>

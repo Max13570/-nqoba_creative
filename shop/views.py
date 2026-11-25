@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .forms import EnquiryForm, OrderForm
-from .models import Order, Service
+from .models import Enquiry, Order, Service
 from .notifications import notify_new_enquiry, notify_new_order
 
 # Tracking-number lookups: allow this many wrong guesses per window.
@@ -131,6 +131,22 @@ def place_order(request):
             order.amount_paid = 0
             order.quoted_price = order.service.price * order.quantity
             order.save()
+
+            # Create an unread Project Enquiry so the order also shows in Admin Enquiries
+            Enquiry.objects.create(
+                name=order.customer_name,
+                email=order.email,
+                phone=order.whatsapp,
+                service=f"{order.service.name} (Order {order.tracking_number})",
+                budget=f"E{order.quoted_price:,.2f}",
+                message=(
+                    f"NEW ORDER SUBMITTED\n"
+                    f"Tracking Number: {order.tracking_number}\n"
+                    f"Quantity: {order.quantity}\n"
+                    f"Deadline: {order.deadline}\n\n"
+                    f"Design Details:\n{order.details}"
+                ),
+            )
 
             tracking_url = request.build_absolute_uri(
                 reverse('order_tracking', args=[order.tracking_number])

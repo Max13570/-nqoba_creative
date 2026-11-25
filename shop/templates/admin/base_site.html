@@ -289,6 +289,7 @@
         border-radius: 10px !important;
         padding: 11px 20px !important;
         font-size: 13px !important;
+        cursor: pointer !important;
     }
 
     .button:hover,
@@ -309,13 +310,21 @@
     }
 
     /* =====================================================
-       FORMS
+       FORMS & READONLY FIELDS
        ===================================================== */
 
     label {
         color: #fff !important;
         font-weight: 600 !important;
         font-size: 13px !important;
+    }
+
+    .readonly {
+        color: #fff !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        white-space: pre-wrap !important;
+        padding-top: 4px !important;
     }
 
     input[type=text],
@@ -334,6 +343,22 @@
         font-size: 14px !important;
         width: 100% !important;
         max-width: 560px !important;
+    }
+
+    input[type=checkbox] {
+        accent-color: var(--nq-gold) !important;
+        width: 16px !important;
+        height: 16px !important;
+        cursor: pointer !important;
+    }
+
+    /* Keep inline table edits compact */
+    #result_list input[type=text],
+    #result_list select {
+        width: auto !important;
+        min-width: 110px !important;
+        padding: 6px 10px !important;
+        font-size: 13px !important;
     }
 
     input:focus,
@@ -579,7 +604,7 @@
     }
 
     /* =====================================================
-       ORDER FILTERS
+       ORDER & ENQUIRY FILTERS
        ===================================================== */
 
     #changelist {
@@ -683,7 +708,7 @@
     }
 
     /* =====================================================
-       ORDER TABLE
+       ORDER & ENQUIRY TABLES
        ===================================================== */
 
     #result_list {

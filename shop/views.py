@@ -258,6 +258,36 @@ def order_tracking(request, tracking_number):
         tracking_number=tracking_number.upper()
     )
 
+    if request.method == 'POST':
+        # Spam trap check
+        if request.POST.get('website'):
+            return redirect('order_tracking', tracking_number=order.tracking_number)
+
+        client_message = (request.POST.get('order_message') or '').strip()
+
+        if len(client_message) < 3:
+            messages.error(request, 'Please type a message before sending.')
+        else:
+            enquiry = Enquiry.objects.create(
+                name=order.customer_name,
+                email=order.email,
+                phone=order.whatsapp,
+                service=f"Order Follow-up: {order.tracking_number} ({order.service.name})",
+                budget=f"E{order.quoted_price:,.2f}",
+                message=(
+                    f"CLIENT MESSAGE ON ORDER {order.tracking_number}\n"
+                    f"Current Status: {order.get_status_display()}\n"
+                    f"Deadline: {order.deadline}\n\n"
+                    f"Message:\n{client_message}"
+                ),
+            )
+            notify_new_enquiry(enquiry)
+            messages.success(
+                request,
+                'Your message has been sent. We have received it and will reply shortly.'
+            )
+            return redirect('order_tracking', tracking_number=order.tracking_number)
+
     return render(request, 'shop/order_details.html', {
         'order': order
     })

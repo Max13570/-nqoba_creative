@@ -415,6 +415,7 @@ class EnquiryAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'service',
+        'message_preview',
         'phone',
         'email',
         'budget',
@@ -422,13 +423,17 @@ class EnquiryAdmin(admin.ModelAdmin):
         'created_at',
     )
 
-    list_filter = ('is_read', 'service', 'created_at')
+    list_display_links = ('name', 'service')
+
+    list_filter = ('is_read', 'created_at')
 
     search_fields = ('name', 'email', 'phone', 'service', 'message')
 
     list_editable = ('is_read',)
 
     list_per_page = 25
+
+    ordering = ('-created_at',)
 
     date_hierarchy = 'created_at'
 
@@ -442,13 +447,42 @@ class EnquiryAdmin(admin.ModelAdmin):
         'created_at',
     )
 
-    fields = readonly_fields + ('is_read',)
+    fieldsets = (
+        (
+            'Client Details & Message',
+            {
+                'fields': (
+                    'name',
+                    'email',
+                    'phone',
+                    'service',
+                    'budget',
+                    'message',
+                    'created_at',
+                )
+            }
+        ),
+        (
+            'Status',
+            {
+                'fields': ('is_read',)
+            }
+        ),
+    )
 
     actions = ('mark_read',)
 
     def has_add_permission(self, request):
-        # Enquiries come from the website contact form only.
+        # Enquiries come from the website contact form or order tracking messages.
         return False
+
+    @admin.display(description='Message')
+    def message_preview(self, obj):
+        lines = [line.strip() for line in (obj.message or '').splitlines() if line.strip()]
+        summary = ' — '.join(lines[-2:]) if lines else ''
+        if len(summary) > 70:
+            summary = summary[:67] + '...'
+        return summary or '-'
 
     @admin.action(description='Mark selected enquiries as read')
     def mark_read(self, request, queryset):

@@ -36,9 +36,9 @@
                 <span>Order progress</span>
                 <span>{{ order.progress_percentage }}%</span>
             </div>
-            <div class="progress-track" role="progressbar"
-                 aria-valuenow="{{ order.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-fill" style="width: {{ order.progress_percentage }}%;"></div>
+            <div class="progress-track" role="progressbar" aria-valuenow="{{ order.progress_percentage }}"
+                aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill" id="progressFill" data-progress="{{ order.progress_percentage }}"></div>
             </div>
         </div>
 
@@ -58,22 +58,54 @@
         <div class="panel">
             <h2>Order information</h2>
             <div class="info-grid">
-                <div class="info-box"><div class="info-label">Customer</div><div class="info-value">{{ order.customer_name }}</div></div>
-                <div class="info-box"><div class="info-label">Service</div><div class="info-value">{{ order.service.name }}</div></div>
-                <div class="info-box"><div class="info-label">Quantity</div><div class="info-value">{{ order.quantity }}</div></div>
-                <div class="info-box"><div class="info-label">Order date</div><div class="info-value">{{ order.created_at|date:"d M Y" }}</div></div>
-                <div class="info-box"><div class="info-label">Needed by</div><div class="info-value">{{ order.deadline|date:"d M Y" }}</div></div>
-                <div class="info-box"><div class="info-label">Last updated</div><div class="info-value">{{ order.updated_at|date:"d M Y, H:i" }}</div></div>
+                <div class="info-box">
+                    <div class="info-label">Customer</div>
+                    <div class="info-value">{{ order.customer_name }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Service</div>
+                    <div class="info-value">{{ order.service.name }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Quantity</div>
+                    <div class="info-value">{{ order.quantity }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Order date</div>
+                    <div class="info-value">{{ order.created_at|date:"d M Y" }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Needed by</div>
+                    <div class="info-value">{{ order.deadline|date:"d M Y" }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Last updated</div>
+                    <div class="info-value">{{ order.updated_at|date:"d M Y, H:i" }}</div>
+                </div>
             </div>
         </div>
 
         <div class="panel">
             <h2>Payment</h2>
             <div class="info-grid">
-                <div class="info-box"><div class="info-label">Quoted price</div><div class="info-value">{{ CURRENCY }}{{ order.quoted_price|floatformat:2 }}</div></div>
-                <div class="info-box"><div class="info-label">Amount paid</div><div class="info-value paid">{{ CURRENCY }}{{ order.amount_paid|floatformat:2 }}</div></div>
-                <div class="info-box"><div class="info-label">Balance due</div><div class="info-value balance{% if order.balance <= 0 %} clear{% endif %}">{{ CURRENCY }}{{ order.balance|floatformat:2 }}</div></div>
-                <div class="info-box"><div class="info-label">Payment status</div><div class="info-value">{{ order.get_payment_status_display }}</div></div>
+                <div class="info-box">
+                    <div class="info-label">Quoted price</div>
+                    <div class="info-value">{{ CURRENCY }}{{ order.quoted_price|floatformat:2 }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Amount paid</div>
+                    <div class="info-value paid">{{ CURRENCY }}{{ order.amount_paid|floatformat:2 }}</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Balance due</div>
+                    <div class="info-value balance{% if order.balance <= 0 %} clear{% endif %}">
+                        {{ CURRENCY }}{{ order.balance|floatformat:2 }}
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Payment status</div>
+                    <div class="info-value">{{ order.get_payment_status_display }}</div>
+                </div>
             </div>
         </div>
 
@@ -113,9 +145,44 @@
         </div>
 
         <div class="action-row">
-            <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hello%20Nqoba%20Creative%2C%20about%20my%20order%20{{ order.tracking_number|urlencode }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Message us about this order</a>
+            <button type="button" id="toggleOrderMsgBtn" class="btn btn-primary" aria-expanded="false"
+                aria-controls="orderMessageBox">
+                Message us about this order
+            </button>
             <a href="{% url 'track_order' %}" class="btn btn-outline-dark">Track another order</a>
             <a href="{% url 'place_order' %}" class="btn btn-gold">Place a new order</a>
+        </div>
+
+        <div id="orderMessageBox" class="panel" style="margin-top: 20px;" hidden>
+            <h2>Send a message about {{ order.tracking_number }}</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Spam trap: leave empty -->
+                <div class="of-trap" aria-hidden="true">
+                    <label for="id_website_follow">Leave this field empty</label>
+                    <input type="text" name="website" id="id_website_follow" tabindex="-1" autocomplete="off">
+                </div>
+
+                <div class="of-field">
+                    <label for="order_message">Your message or revision request</label>
+                    <textarea name="order_message" id="order_message" rows="4"
+                        placeholder="Ask a question, request a design change, or share extra instructions..."
+                        required></textarea>
+                    <p class="of-hint">
+                        We will reply to <strong>{{ order.email }}</strong>
+                        or your WhatsApp (<strong>{{ order.whatsapp }}</strong>).
+                    </p>
+                </div>
+
+                <div class="action-row" style="margin-top: 12px;">
+                    <button type="submit" class="of-submit">Send message</button>
+                    <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hello%20Nqoba%20Creative%2C%20about%20my%20order%20{{ order.tracking_number|urlencode }}"
+                        class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer">
+                        Or chat on WhatsApp
+                    </a>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -125,32 +192,59 @@
 
 {% block extra_js %}
 <script>
-(function () {
-    var button = document.getElementById('copyCode');
-    var code = document.getElementById('trackingCode');
-
-    if (!button || !code) { return; }
-
-    button.addEventListener('click', function () {
-        var text = code.textContent.trim();
-
-        function done() {
-            button.textContent = 'Copied';
-            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+    (function () {
+        /* Set progress bar width cleanly without inline CSS template tags */
+        var fill = document.getElementById('progressFill');
+        if (fill) {
+            fill.style.width = (fill.dataset.progress || 0) + '%';
         }
 
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(done);
-        } else {
-            var field = document.createElement('textarea');
-            field.value = text;
-            document.body.appendChild(field);
-            field.select();
-            document.execCommand('copy');
-            document.body.removeChild(field);
-            done();
+        /* Copy tracking code */
+        var button = document.getElementById('copyCode');
+        var code = document.getElementById('trackingCode');
+
+        if (button && code) {
+            button.addEventListener('click', function () {
+                var text = code.textContent.trim();
+
+                function done() {
+                    button.textContent = 'Copied';
+                    setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+                }
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(done);
+                } else {
+                    var field = document.createElement('textarea');
+                    field.value = text;
+                    document.body.appendChild(field);
+                    field.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(field);
+                    done();
+                }
+            });
         }
-    });
-})();
+
+        /* Toggle inline order message box */
+        var msgBtn = document.getElementById('toggleOrderMsgBtn');
+        var msgBox = document.getElementById('orderMessageBox');
+        var msgInput = document.getElementById('order_message');
+
+        if (msgBtn && msgBox) {
+            msgBtn.addEventListener('click', function () {
+                var isHidden = msgBox.hidden;
+                msgBox.hidden = !isHidden;
+                msgBtn.setAttribute('aria-expanded', String(isHidden));
+
+                if (isHidden) {
+                    msgBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    if (msgInput) {
+                        msgInput.focus();
+                    }
+                }
+            });
+        }
+    })();
 </script>
 {% endblock %}

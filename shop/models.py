@@ -272,7 +272,7 @@ class Order(models.Model):
 
 
 # ==========================================
-# ENQUIRY MODEL (contact page)
+# ENQUIRY MODEL (contact & order messages)
 # ==========================================
 
 class Enquiry(models.Model):
@@ -288,7 +288,7 @@ class Enquiry(models.Model):
     )
 
     service = models.CharField(
-        max_length=100
+        max_length=160
     )
 
     budget = models.CharField(

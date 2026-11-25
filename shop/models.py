@@ -1,7 +1,8 @@
+import re
+import secrets
 
 from django.db import models
 from django.utils import timezone
-import secrets
 
 
 # ==========================================
@@ -10,10 +11,9 @@ import secrets
 
 def generate_tracking_number():
     """
-    Generate a unique tracking number.
+    Generate a tracking number.
 
-    Format:
-    NQ-XXXXXXXX
+    Format: NQ-XXXXXXXX
     """
 
     return f"NQ-{secrets.token_hex(4).upper()}"
@@ -46,6 +46,12 @@ class Service(models.Model):
         null=True
     )
 
+    is_active = models.BooleanField(
+        default=True,
+        help_text='Untick to hide this service from the website '
+                  'without deleting it.'
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
@@ -63,48 +69,24 @@ class Service(models.Model):
 
 class Order(models.Model):
 
-    # ==========================================
-    # ORDER STATUS
-    # ==========================================
-
     STATUS_CHOICES = [
-
         ('NEW', 'Order Received'),
-
         ('CONFIRMED', 'Confirmed'),
-
         ('IN_PROGRESS', 'Design In Progress'),
-
         ('REVIEW', 'Awaiting Client Review'),
-
         ('REVISION', 'Revision In Progress'),
-
         ('DONE', 'Completed'),
-
         ('DELIVERED', 'Delivered'),
-
         ('CANCELLED', 'Cancelled'),
-
     ]
-
-    # ==========================================
-    # PAYMENT STATUS
-    # ==========================================
 
     PAYMENT_STATUS_CHOICES = [
-
         ('UNPAID', 'Unpaid'),
-
         ('PARTIAL', 'Partially Paid'),
-
         ('PAID', 'Fully Paid'),
-
     ]
 
-    # ==========================================
-    # ORDER IDENTIFICATION
-    # ==========================================
-
+    # Order identification
     tracking_number = models.CharField(
         max_length=20,
         unique=True,
@@ -114,10 +96,7 @@ class Order(models.Model):
         db_index=True
     )
 
-    # ==========================================
-    # CUSTOMER INFORMATION
-    # ==========================================
-
+    # Customer information
     customer_name = models.CharField(
         max_length=100
     )
@@ -128,10 +107,7 @@ class Order(models.Model):
 
     email = models.EmailField()
 
-    # ==========================================
-    # ORDER INFORMATION
-    # ==========================================
-
+    # Order information
     service = models.ForeignKey(
         Service,
         on_delete=models.PROTECT,
@@ -146,10 +122,7 @@ class Order(models.Model):
 
     deadline = models.DateField()
 
-    # ==========================================
-    # ORDER STATUS
-    # ==========================================
-
+    # Order status
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -162,10 +135,7 @@ class Order(models.Model):
         default=''
     )
 
-    # ==========================================
-    # PAYMENT INFORMATION
-    # ==========================================
-
+    # Payment information
     quoted_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -185,10 +155,7 @@ class Order(models.Model):
         db_index=True
     )
 
-    # ==========================================
-    # ORDER DATES
-    # ==========================================
-
+    # Order dates
     created_at = models.DateTimeField(
         auto_now_add=True,
         db_index=True
@@ -203,75 +170,58 @@ class Order(models.Model):
         null=True
     )
 
-    # ==========================================
-    # BALANCE PROPERTY
-    # ==========================================
+    # ------------------------------------------
+    # Properties
+    # ------------------------------------------
 
     @property
     def balance(self):
-        """
-        Calculate the remaining payment balance.
-        """
+        """Remaining payment balance."""
 
-        return max(
-            self.quoted_price - self.amount_paid,
-            0
-        )
-
-    # ==========================================
-    # PROGRESS PROPERTY
-    # ==========================================
+        return max(self.quoted_price - self.amount_paid, 0)
 
     @property
     def progress_percentage(self):
-        """
-        Calculate progress based on order status.
-        """
+        """Progress based on order status."""
 
         progress_values = {
-
             'NEW': 10,
-
             'CONFIRMED': 20,
-
             'IN_PROGRESS': 50,
-
             'REVIEW': 75,
-
             'REVISION': 85,
-
             'DONE': 95,
-
             'DELIVERED': 100,
-
             'CANCELLED': 0,
-
         }
 
-        return progress_values.get(
-            self.status,
-            0
-        )
-
-    # ==========================================
-    # COMPLETION PROPERTY
-    # ==========================================
+        return progress_values.get(self.status, 0)
 
     @property
     def is_completed(self):
+        return self.status in ['DONE', 'DELIVERED']
 
-        return self.status in [
-            'DONE',
-            'DELIVERED'
-        ]
+    @property
+    def whatsapp_digits(self):
+        """
+        Customer number in international format for wa.me links.
+        Eswatini numbers are 8 digits, so 268 is added when missing.
+        """
 
-    # ==========================================
-    # SAVE METHOD
-    # ==========================================
+        digits = re.sub(r'\D', '', self.whatsapp or '')
+
+        if len(digits) == 8:
+            digits = '268' + digits
+
+        return digits
+
+    # ------------------------------------------
+    # Save
+    # ------------------------------------------
 
     def save(self, *args, **kwargs):
 
-        # Generate tracking number if missing
+        # Generate a unique tracking number if missing
         if not self.tracking_number:
 
             while True:
@@ -283,57 +233,86 @@ class Order(models.Model):
                 ).exists():
 
                     self.tracking_number = tracking_number
-
                     break
 
-        # Automatically update completion date
+        # Completion date follows the status
         if self.status in ['DONE', 'DELIVERED']:
 
             if not self.completed_at:
-
                 self.completed_at = timezone.now()
 
         else:
-
             self.completed_at = None
 
-        # Automatically calculate payment status
+        # Payment status follows the amounts
         if self.quoted_price > 0:
 
             if self.amount_paid >= self.quoted_price:
-
                 self.payment_status = 'PAID'
 
             elif self.amount_paid > 0:
-
                 self.payment_status = 'PARTIAL'
 
             else:
-
                 self.payment_status = 'UNPAID'
 
         super().save(*args, **kwargs)
 
-    # ==========================================
-    # STRING REPRESENTATION
-    # ==========================================
-
     def __str__(self):
-
         return (
             f"{self.tracking_number} - "
             f"{self.customer_name} - "
             f"{self.service.name}"
         )
 
-    # ==========================================
-    # MODEL SETTINGS
-    # ==========================================
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Customer Order'
+        verbose_name_plural = 'Customer Orders'
+
+
+# ==========================================
+# ENQUIRY MODEL (contact page)
+# ==========================================
+
+class Enquiry(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    email = models.EmailField()
+
+    phone = models.CharField(
+        max_length=30
+    )
+
+    service = models.CharField(
+        max_length=100
+    )
+
+    budget = models.CharField(
+        max_length=50,
+        blank=True,
+        default=''
+    )
+
+    message = models.TextField()
+
+    is_read = models.BooleanField(
+        default=False,
+        db_index=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True
+    )
+
+    def __str__(self):
+        return f"{self.name} - {self.service}"
 
     class Meta:
-
         ordering = ['-created_at']
-
-        verbose_name = 'Customer Order'
-
-        verbose_name_plural = 'Customer Orders'
+        verbose_name = 'Project Enquiry'
+        verbose_name_plural = 'Project Enquiries'

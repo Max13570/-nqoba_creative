@@ -1579,6 +1579,44 @@
             }
 
         }
+    
+        /* =========================================
+           SITE MESSAGES (success / error)
+        ========================================= */
+
+        .site-messages {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .site-message {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+            border: 1px solid transparent;
+        }
+
+        .site-message.success {
+            background: #ECFDF5;
+            border-color: #A7F3D0;
+            color: #065F46;
+        }
+
+        .site-message.error {
+            background: #FEF2F2;
+            border-color: #FECACA;
+            color: #991B1B;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -1624,11 +1662,11 @@
 
                 <a href="{% url 'about' %}">About</a>
 
-                <a href="#order-tracker">Order Tracker</a>
+                <a href="{% url 'track_order' %}">Order Tracker</a>
 
                 <a href="{% url 'contact' %}">Contact</a>
 
-                <a href="{% url 'contact' %}" class="nav-contact">
+                <a href="{% url 'place_order' %}" class="nav-contact">
                     Start a Project <span>↗</span>
                 </a>
 
@@ -1708,6 +1746,12 @@
 
                         <li>
                             <a href="{% url 'contact' %}">Contact</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'place_order' %}">Place an Order</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'track_order' %}">Track Your Order</a>
                         </li>
 
                     </ul>

@@ -1,0 +1,495 @@
+<style>
+/* ==========================================
+   ORDER PAGES (order form, tracking, details)
+   Uses the global design tokens from base.html
+========================================== */
+
+.page-banner {
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 70px 0 60px;
+    border-bottom: 4px solid var(--gold);
+}
+
+.page-banner h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(30px, 4.5vw, 48px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
+
+.page-banner p {
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 640px;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.page-body {
+    background: var(--off-white);
+    padding: 55px 0 90px;
+}
+
+.panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 34px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+}
+
+.panel h2 {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.order-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 30px;
+    align-items: start;
+}
+
+/* ---------- form ---------- */
+
+.of-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.of-field {
+    margin-bottom: 22px;
+}
+
+.of-field label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.of-field label span {
+    color: #B91C1C;
+}
+
+.of-field input,
+.of-field select,
+.of-field textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--dark);
+    background: var(--white);
+}
+
+.of-field textarea {
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.of-field input:focus,
+.of-field select:focus,
+.of-field textarea:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(11, 90, 64, 0.12);
+}
+
+.of-field.has-error input,
+.of-field.has-error select,
+.of-field.has-error textarea {
+    border-color: #DC2626;
+}
+
+.of-hint {
+    font-size: 13px;
+    color: var(--gray);
+    margin-top: 6px;
+}
+
+.of-error {
+    font-size: 13px;
+    color: #B91C1C;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+/* Hidden spam trap. Real visitors never see or fill this in. */
+.of-trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.of-submit {
+    width: 100%;
+    padding: 16px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--primary);
+    color: var(--white);
+    font: inherit;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.of-submit:hover {
+    background: var(--primary-light);
+}
+
+.estimate {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-light);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 22px;
+}
+
+.estimate[hidden] {
+    display: none;
+}
+
+.estimate strong {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    color: var(--primary);
+}
+
+.estimate small {
+    color: var(--gray-dark);
+    font-size: 13px;
+    flex-basis: 100%;
+}
+
+/* ---------- steps sidebar (a real sequence) ---------- */
+
+.steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.steps li {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.steps li:last-child {
+    margin-bottom: 0;
+}
+
+.steps .n {
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--gold-light);
+    font-weight: 800;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+}
+
+.steps strong {
+    display: block;
+    color: var(--primary);
+    margin-bottom: 2px;
+}
+
+.steps span {
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.side-note {
+    color: var(--gray-dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    font-size: 15px;
+}
+
+/* ---------- tracking lookup ---------- */
+
+.track-wrap {
+    max-width: 640px;
+    margin-inline: auto;
+}
+
+.track-form input[type="text"] {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.track-found {
+    margin-top: 28px;
+    padding: 24px;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.track-found .code {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 6px 0 16px;
+    word-break: break-word;
+}
+
+/* ---------- order details ---------- */
+
+.detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.code-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.code-line .code {
+    font-family: var(--font-heading);
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--gold-light);
+    word-break: break-word;
+}
+
+.copy-btn {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 5px;
+    padding: 7px 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+.status-pill {
+    background: var(--gold);
+    color: var(--primary-dark);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.status-pill.cancelled {
+    background: #E5E7EB;
+    color: #374151;
+}
+
+.progress-head {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.progress-track {
+    height: 14px;
+    background: #E5E7EB;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 999px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.info-box {
+    background: var(--off-white);
+    border-radius: 8px;
+    padding: 16px 18px;
+}
+
+.info-label {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-weight: 700;
+    color: var(--dark);
+    word-break: break-word;
+}
+
+.info-value.paid {
+    color: #15803D;
+}
+
+.info-value.balance {
+    color: #B91C1C;
+}
+
+.info-value.balance.clear {
+    color: #15803D;
+}
+
+.note-box {
+    background: var(--gold-bg);
+    border-left: 4px solid var(--gold);
+    border-radius: 6px;
+    padding: 16px 18px;
+    line-height: 1.7;
+    color: var(--gray-dark);
+}
+
+.note-box p {
+    margin: 0 0 10px;
+}
+
+.note-box p:last-child {
+    margin-bottom: 0;
+}
+
+.journey {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.journey li {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.journey li:last-child {
+    padding-bottom: 0;
+}
+
+.journey li::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 34px;
+    bottom: 2px;
+    width: 2px;
+    background: #E5E7EB;
+}
+
+.journey li:last-child::before {
+    display: none;
+}
+
+.journey .dot {
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #E5E7EB;
+    color: var(--gray);
+    font-weight: 800;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+}
+
+.journey li.done .dot {
+    background: var(--primary);
+    color: var(--gold-light);
+}
+
+.journey li.done::before {
+    background: var(--primary);
+}
+
+.journey strong {
+    display: block;
+    color: var(--primary);
+}
+
+.journey li:not(.done) strong {
+    color: var(--gray);
+}
+
+.journey span {
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.action-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .order-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .panel {
+        padding: 24px 20px;
+    }
+
+    .of-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .page-banner {
+        padding: 50px 0 42px;
+    }
+
+    .action-row .btn {
+        width: 100%;
+    }
+}
+</style>

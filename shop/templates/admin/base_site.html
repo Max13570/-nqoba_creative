@@ -14,7 +14,10 @@
 {% block extrastyle %}
 {{ block.super }}
 <style>
-    /* ============ NQOBA CREATIVE - PROFESSIONAL ============ */
+    /* =====================================================
+       NQOBA CREATIVE - PROFESSIONAL ADMIN THEME
+       ===================================================== */
+
     :root {
         --nq-deep: #021F16;
         --nq-green: #063B2A;
@@ -25,8 +28,11 @@
         --nq-gold: #D4AF37;
         --nq-white: #FFFFFF;
         --nq-muted: #C7D8CF;
+        --nq-danger: #C0392B;
+        --nq-success: #10B981;
     }
 
+    /* Global */
     * {
         box-sizing: border-box !important;
     }
@@ -42,7 +48,8 @@
     body {
         background: var(--nq-bg) !important;
         color: var(--nq-white) !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, Inter, Helvetica, Arial, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
 
@@ -73,6 +80,7 @@
         width: 100% !important;
     }
 
+    /* Header */
     #header {
         background: var(--nq-deep) !important;
         border-bottom: 1px solid var(--nq-line) !important;
@@ -85,6 +93,7 @@
         letter-spacing: 1.5px !important;
         color: #fff !important;
         text-transform: uppercase !important;
+        text-decoration: none !important;
     }
 
     #site-name a span {
@@ -105,6 +114,7 @@
         font-weight: 700 !important;
     }
 
+    /* Breadcrumbs */
     div.breadcrumbs {
         background: var(--nq-green) !important;
         color: var(--nq-muted) !important;
@@ -118,11 +128,16 @@
         font-weight: 600 !important;
     }
 
-    /* ===== DASHBOARD GRID - FILLS LEFT + RIGHT ===== */
+    /* =====================================================
+       DASHBOARD GRID
+       ===================================================== */
+
     #content {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        grid-template-areas: "title title" "main related" !important;
+        grid-template-areas:
+            "title title"
+            "main related" !important;
         gap: 20px !important;
         width: 100% !important;
         max-width: none !important;
@@ -157,6 +172,10 @@
         float: none !important;
         margin: 0 !important;
     }
+
+    /* =====================================================
+       MODULE CARDS
+       ===================================================== */
 
     .module,
     #content-related .module {
@@ -216,6 +235,7 @@
         color: var(--nq-muted) !important;
     }
 
+    /* Links */
     a:link,
     a:visited {
         color: #fff !important;
@@ -225,6 +245,7 @@
         color: var(--nq-gold) !important;
     }
 
+    /* Add, change and delete links */
     .addlink,
     .changelink,
     .deletelink {
@@ -251,6 +272,10 @@
         background: #fff !important;
         color: var(--nq-green) !important;
     }
+
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
 
     .button,
     input[type=submit],
@@ -282,6 +307,10 @@
         background: #C0392B !important;
         color: #fff !important;
     }
+
+    /* =====================================================
+       FORMS
+       ===================================================== */
 
     label {
         color: #fff !important;
@@ -342,6 +371,10 @@
         font-weight: 600 !important;
     }
 
+    /* =====================================================
+       SEARCH TOOLBAR
+       ===================================================== */
+
     #toolbar {
         background: var(--nq-card) !important;
         border: 1px solid var(--nq-line) !important;
@@ -354,6 +387,7 @@
         max-width: 380px !important;
     }
 
+    /* Actions */
     .actions {
         background: transparent !important;
         padding: 12px 0 !important;
@@ -364,6 +398,7 @@
         max-width: 240px !important;
     }
 
+    /* Pagination */
     .paginator {
         color: var(--nq-muted) !important;
         font-size: 13px !important;
@@ -390,7 +425,10 @@
         font-weight: 800 !important;
     }
 
-    /* ===== RECENT ACTIONS - PROFESSIONAL ALIGNMENT ===== */
+    /* =====================================================
+       RECENT ACTIONS
+       ===================================================== */
+
     #content-related .module {
         padding-bottom: 6px !important;
     }
@@ -409,18 +447,6 @@
         padding: 0 18px 10px 18px !important;
         font-size: 13px !important;
         margin: 0 !important;
-    }
-
-    /* KEY FIX: hide stray text like "Service" / "vice" outside the link */
-    #content-related .module ul li {
-        font-size: 0 !important;
-        line-height: 0 !important;
-        color: transparent !important;
-    }
-
-    #content-related .module ul li * {
-        font-size: 13px !important;
-        line-height: 1.4 !important;
     }
 
     #content-related .module ul {
@@ -443,9 +469,16 @@
         min-width: 0 !important;
         display: flex !important;
         align-items: stretch !important;
+        font-size: 0 !important;
+        line-height: 0 !important;
+        color: transparent !important;
     }
 
-    /* Hide Django icons / extra spans inside li */
+    #content-related .module ul li * {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+    }
+
     #content-related .module ul li img,
     #content-related .module ul li .icon,
     #content-related .module ul li .mini,
@@ -471,7 +504,6 @@
         word-break: break-word !important;
         overflow: hidden !important;
         background-image: none !important;
-        padding-left: 14px !important;
     }
 
     #content-related .module ul li a:hover {
@@ -489,8 +521,10 @@
         padding-left: 14px !important;
     }
 
-    /* ===== DASHBOARD LEFT - FIX BLANK WHITE BUTTONS ===== */
-    /* Model name stays white, buttons get GREEN text */
+    /* =====================================================
+       DASHBOARD MODEL BUTTONS
+       ===================================================== */
+
     #content-main .module table td {
         vertical-align: middle !important;
     }
@@ -505,7 +539,6 @@
         color: var(--nq-gold) !important;
     }
 
-    /* Add / View / Change buttons - force visible green text */
     #content-main .module table td a.addlink,
     #content-main .module table td a.changelink,
     #content-main .module table td a.viewlink,
@@ -520,7 +553,6 @@
         font-weight: 800 !important;
         line-height: 1 !important;
         padding: 7px 16px !important;
-        padding-left: 16px !important;
         border-radius: 999px !important;
         text-decoration: none !important;
         display: inline-block !important;
@@ -529,25 +561,27 @@
         white-space: nowrap !important;
     }
 
-    /* Add stays GOLD with dark text */
     #content-main .module table td a.addlink,
     #content-main a.addlink {
-        background-color: #D4AF37 !important;
-        color: #021F16 !important;
+        background-color: var(--nq-gold) !important;
+        color: var(--nq-deep) !important;
     }
 
     #content-main .module table td a.addlink:hover {
         background-color: #fff !important;
-        color: #063B2A !important;
+        color: var(--nq-green) !important;
     }
 
     #content-main .module table td a.changelink:hover,
     #content-main .module table td a.viewlink:hover {
-        background-color: #D4AF37 !important;
-        color: #021F16 !important;
+        background-color: var(--nq-gold) !important;
+        color: var(--nq-deep) !important;
     }
 
-    /* ===== ORDERS FILTERS - 2 COLUMNS ===== */
+    /* =====================================================
+       ORDER FILTERS
+       ===================================================== */
+
     #changelist {
         display: flex !important;
         flex-direction: column !important;
@@ -648,6 +682,10 @@
         font-size: 12.5px !important;
     }
 
+    /* =====================================================
+       ORDER TABLE
+       ===================================================== */
+
     #result_list {
         background: var(--nq-card) !important;
         border-radius: 12px !important;
@@ -674,12 +712,20 @@
         background: var(--nq-card-2) !important;
     }
 
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
     #footer {
         border-top: 1px solid var(--nq-line) !important;
         color: var(--nq-muted) !important;
         font-size: 12px !important;
         padding: 16px 20px !important;
     }
+
+    /* =====================================================
+       NON-DASHBOARD ADMIN PAGES
+       ===================================================== */
 
     body:not(.dashboard) #content {
         display: block !important;
@@ -694,10 +740,17 @@
         display: none !important;
     }
 
+    /* =====================================================
+       RESPONSIVE DESIGN
+       ===================================================== */
+
     @media (max-width: 900px) {
         #content {
             grid-template-columns: 1fr !important;
-            grid-template-areas: "title" "main" "related" !important;
+            grid-template-areas:
+                "title"
+                "main"
+                "related" !important;
         }
 
         #changelist-filter ul {
@@ -711,8 +764,27 @@
             gap: 14px !important;
         }
 
+        #header {
+            padding: 12px 14px !important;
+        }
+
+        #site-name a {
+            font-size: 16px !important;
+        }
+
         #content-related .module ul {
             grid-template-columns: 1fr !important;
+        }
+
+        .module table th,
+        .module table td {
+            padding: 10px !important;
+            font-size: 12px !important;
+        }
+
+        #result_list {
+            display: block !important;
+            overflow-x: auto !important;
         }
     }
 </style>
@@ -722,24 +794,53 @@
 {{ block.super }}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // CLEAN Recent Actions: remove stray text "Service", icons, and empty pills
-        document.querySelectorAll("#content-related .module ul li").forEach(function (li) {
+
+        /* Clean Recent Actions */
+        document.querySelectorAll(
+            "#content-related .module ul li"
+        ).forEach(function (li) {
+
             Array.from(li.childNodes).forEach(function (node) {
-                if (node.nodeType === 3) { node.remove(); }
+                if (node.nodeType === 3) {
+                    node.remove();
+                }
             });
-            li.querySelectorAll("img, br, .icon, .mini").forEach(function (el) { el.remove(); });
+
+            li.querySelectorAll(
+                "img, br, .icon, .mini"
+            ).forEach(function (el) {
+                el.remove();
+            });
+
             var a = li.querySelector("a");
-            if (a && a.textContent.trim() === "Logo") { li.remove(); return; }
-            if (a) { a.textContent = a.textContent.replace(/\s+/g, " ").trim(); }
-            if (!li.querySelector("a") || li.textContent.trim() === "") { li.remove(); }
+
+            if (a && a.textContent.trim() === "Logo") {
+                li.remove();
+                return;
+            }
+
+            if (a) {
+                a.textContent = a.textContent
+                    .replace(/\s+/g, " ")
+                    .trim();
+            }
+
+            if (!li.querySelector("a") || li.textContent.trim() === "") {
+                li.remove();
+            }
         });
 
-        // FIX blank buttons on left: if View / Change button has no visible text, set it
-        document.querySelectorAll("#content-main .module table td a.changelink, #content-main .module table td a.viewlink").forEach(function (a) {
+        /* Fix blank View / Change buttons */
+        document.querySelectorAll(
+            "#content-main .module table td a.changelink, " +
+            "#content-main .module table td a.viewlink"
+        ).forEach(function (a) {
+
             if (!a.textContent.trim()) {
                 a.textContent = "View";
             }
         });
+
     });
 </script>
 {% endblock %}

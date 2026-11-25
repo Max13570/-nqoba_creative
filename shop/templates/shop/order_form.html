@@ -1,303 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'shop/base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Place an Order | Nqoba Creative{% endblock %}
 
-    <title>Place an Order | Nqoba Creative</title>
+{% block meta_description %}Order professional graphic design from Nqoba Creative. Choose a service, tell us what you need and get a tracking number straight away.{% endblock %}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+{% block extra_css %}
+{% include 'shop/_order_styles.html' %}
+{% endblock %}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7f5;
-            color: #1f2937;
-        }
+{% block content %}
 
-        .navbar {
-            background: #064e3b;
-            color: white;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: #d4af37;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .container {
-            max-width: 850px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-        }
-
-        .heading {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .heading h1 {
-            color: #064e3b;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .heading p {
-            color: #64748b;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #064e3b;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 15px;
-            background: #fff;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #0f766e;
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-        }
-
-        textarea {
-            min-height: 140px;
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background: #064e3b;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background: #0f766e;
-            transform: translateY(-2px);
-        }
-
-        .message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .notice {
-            background: #fffbeb;
-            border-left: 4px solid #d4af37;
-            padding: 15px;
-            margin-top: 25px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #64748b;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px auto;
-            }
-
-            .card {
-                padding: 25px 20px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .navbar {
-                padding: 20px;
-            }
-
-            .navbar a {
-                margin-left: 10px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav class="navbar">
-        <div class="brand">NQOBA CREATIVE</div>
-
-        <div>
-            <a href="/">Home</a>
-            <a href="/services/">Services</a>
-            <a href="/track-order/">Track Order</a>
-        </div>
-    </nav>
-
+<section class="page-banner">
     <div class="container">
+        <h1>Place your order</h1>
+        <p>
+            Tell us what you need. You get a tracking number as soon as you
+            submit, and we confirm your final price before any design work starts.
+        </p>
+    </div>
+</section>
 
-        <div class="card">
+<section class="page-body">
+    <div class="container order-layout">
 
-            <div class="heading">
-                <h1>Place Your Order</h1>
+        <div class="panel">
 
-                <p>
-                    Let's bring your creative ideas to life.
-                    Fill in the details below to get started.
-                </p>
-            </div>
+            {% include 'shop/_messages.html' %}
 
-            {% if messages %}
-            {% for message in messages %}
-            <div class="message">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-
-            <form method="POST">
+            <form method="post" id="orderForm">
                 {% csrf_token %}
 
-                <div class="form-group">
-                    <label for="customer_name">Full Name *</label>
-
-                    <input type="text" name="customer_name" id="customer_name" placeholder="Enter your full name"
-                        required>
+                <!-- Spam trap: leave empty -->
+                <div class="of-trap" aria-hidden="true">
+                    <label for="id_website">Leave this field empty</label>
+                    <input type="text" name="website" id="id_website" tabindex="-1" autocomplete="off">
                 </div>
 
-                <div class="form-row">
+                {% include 'shop/_field.html' with field=form.customer_name label="Full name" required=True %}
 
-                    <div class="form-group">
-                        <label for="whatsapp">WhatsApp Number *</label>
-
-                        <input type="tel" name="whatsapp" id="whatsapp" placeholder="+268..." required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-
-                        <input type="email" name="email" id="email" placeholder="your@email.com" required>
-                    </div>
-
+                <div class="of-row">
+                    {% include 'shop/_field.html' with field=form.whatsapp label="WhatsApp number" required=True hint="Example: +268 7833 6238" %}
+                    {% include 'shop/_field.html' with field=form.email label="Email address" required=True %}
                 </div>
 
-                <div class="form-group">
-                    <label for="service">Select Service *</label>
-
-                    <select name="service" id="service" required>
-
+                <div class="of-field{% if form.service.errors %} has-error{% endif %}">
+                    <label for="id_service">Service <span aria-hidden="true">*</span></label>
+                    <select name="service" id="id_service" required>
                         <option value="">Choose a service</option>
-
-                        {% for service in services %}
-                        <option value="{{ service.id }}">
-                            {{ service.name }} - E{{ service.price }}
+                        {% for service in form.fields.service.queryset %}
+                        <option value="{{ service.pk }}"
+                                data-price="{{ service.price }}"
+                                data-days="{{ service.delivery_days }}"
+                                {% if form.service.value|stringformat:"s" == service.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ service.name }} ({{ CURRENCY }}{{ service.price }})
                         </option>
                         {% endfor %}
-
                     </select>
+                    {% for error in form.service.errors %}
+                    <p class="of-error">{{ error }}</p>
+                    {% endfor %}
                 </div>
 
-                <div class="form-row">
-
-                    <div class="form-group">
-                        <label for="quantity">Quantity *</label>
-
-                        <input type="number" name="quantity" id="quantity" value="1" min="1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deadline">Required Deadline *</label>
-
-                        <input type="date" name="deadline" id="deadline" required>
-                    </div>
-
+                <div class="of-row">
+                    {% include 'shop/_field.html' with field=form.quantity label="Quantity" required=True %}
+                    {% include 'shop/_field.html' with field=form.deadline label="Date you need it by" required=True %}
                 </div>
 
-                <div class="form-group">
-                    <label for="details">Describe Your Design Requirements *</label>
+                {% include 'shop/_field.html' with field=form.details label="What should we design?" required=True hint="Include the text to use, colours, size, style, and anything you have seen that you like." %}
 
-                    <textarea name="details" id="details"
-                        placeholder="Tell us what you need, your preferred colours, text, size, style and any other requirements..."
-                        required></textarea>
+                <div class="estimate" id="estimate" data-currency="{{ CURRENCY }}" hidden>
+                    <span>Estimated price</span>
+                    <strong id="estimateAmount"></strong>
+                    <small>Usual delivery: <span id="estimateDays"></span>. We confirm your final price before starting.</small>
                 </div>
 
-                <button type="submit" class="btn">
-                    Submit Order
-                </button>
-
+                <button type="submit" class="of-submit">Submit order</button>
             </form>
-
-            <div class="notice">
-                <strong>Important:</strong>
-                After submitting your order, you will receive a unique tracking
-                number. Keep it safe so you can monitor your order progress.
-            </div>
 
         </div>
 
+        <aside>
+            <div class="panel">
+                <h2>What happens next</h2>
+                <ol class="steps">
+                    <li>
+                        <div class="n">1</div>
+                        <div><strong>You submit the order</strong><span>You get a tracking number on screen and by email.</span></div>
+                    </li>
+                    <li>
+                        <div class="n">2</div>
+                        <div><strong>We confirm</strong><span>We check your requirements and confirm the final price.</span></div>
+                    </li>
+                    <li>
+                        <div class="n">3</div>
+                        <div><strong>We design</strong><span>You review the design and ask for changes if needed.</span></div>
+                    </li>
+                    <li>
+                        <div class="n">4</div>
+                        <div><strong>You receive your files</strong><span>Follow every stage with your tracking number.</span></div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="panel">
+                <h2>Prefer to talk first?</h2>
+                <p class="side-note">Send us a message on WhatsApp and we will help you choose the right service.</p>
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+            </div>
+        </aside>
+
     </div>
+</section>
 
-    <footer class="footer">
-        &copy; {% now "Y" %} Nqoba Creative.
-        Ideas Into Impact.
-    </footer>
+{% endblock %}
 
-</body>
+{% block extra_js %}
+<script>
+(function () {
+    var service = document.getElementById('id_service');
+    var quantity = document.getElementById('id_quantity');
+    var box = document.getElementById('estimate');
+    var amount = document.getElementById('estimateAmount');
+    var days = document.getElementById('estimateDays');
 
-</html>
+    if (!service || !quantity || !box) { return; }
+
+    function update() {
+        var option = service.options[service.selectedIndex];
+        var price = parseFloat(option && option.dataset.price);
+        var count = parseInt(quantity.value, 10);
+
+        if (!price || !count || count < 1) {
+            box.hidden = true;
+            return;
+        }
+
+        box.hidden = false;
+        amount.textContent = box.dataset.currency + (price * count).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+        days.textContent = option.dataset.days + (option.dataset.days === '1' ? ' day' : ' days');
+    }
+
+    service.addEventListener('change', update);
+    quantity.addEventListener('input', update);
+    update();
+})();
+</script>
+{% endblock %}

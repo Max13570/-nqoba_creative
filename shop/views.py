@@ -1,9 +1,21 @@
+import time
+from urllib.parse import quote
 
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.utils import timezone
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from .models import Service, Order
+
+from .forms import EnquiryForm, OrderForm
+from .models import Order, Service
+from .notifications import notify_new_enquiry, notify_new_order
+
+# Tracking-number lookups: allow this many wrong guesses per window.
+TRACK_MAX_FAILURES = 8
+TRACK_WINDOW_SECONDS = 15 * 60
+
+
+def _active_services():
+    return Service.objects.filter(is_active=True)
 
 
 # =========================
@@ -11,10 +23,8 @@ from .models import Service, Order
 # =========================
 
 def home(request):
-    services = Service.objects.all()[:6]
-
     return render(request, 'shop/home.html', {
-        'services': services
+        'services': _active_services()[:6]
     })
 
 
@@ -23,10 +33,8 @@ def home(request):
 # =========================
 
 def services_page(request):
-    services = Service.objects.all()
-
     return render(request, 'shop/services.html', {
-        'services': services
+        'services': _active_services()
     })
 
 
@@ -43,10 +51,8 @@ def about_page(request):
 # =========================
 
 def portfolio_page(request):
-    services = Service.objects.all()
-
     return render(request, 'shop/portfolio.html', {
-        'services': services
+        'services': _active_services()
     })
 
 
@@ -55,7 +61,54 @@ def portfolio_page(request):
 # =========================
 
 def contact_page(request):
-    return render(request, 'shop/contact.html')
+
+    if request.method == 'POST':
+
+        form = EnquiryForm(request.POST)
+
+        if form.is_valid():
+
+            # Hidden "website" field is only filled in by spam bots.
+            # Pretend it worked, but save nothing.
+            if form.cleaned_data.get('website'):
+                return redirect('contact')
+
+            enquiry = form.save()
+            notify_new_enquiry(enquiry)
+
+            request.session['enquiry_whatsapp_text'] = (
+                'NEW PROJECT ENQUIRY - NQOBA CREATIVE\n\n'
+                f'Name: {enquiry.name}\n'
+                f'Phone: {enquiry.phone}\n'
+                f'Service: {enquiry.service}\n'
+                f'Budget: {enquiry.budget or "Not specified"}\n\n'
+                f'{enquiry.message}'
+            )
+
+            messages.success(
+                request,
+                'Thank you. Your enquiry has been received and we will '
+                'contact you soon.'
+            )
+
+            return redirect('contact')
+
+        for field_name, errors in form.errors.items():
+            label = (
+                form.fields[field_name].label
+                or field_name.replace('_', ' ').title()
+            ) if field_name in form.fields else 'Form'
+
+            for error in errors:
+                messages.error(request, f'{label}: {error}')
+
+        return render(request, 'shop/contact.html')
+
+    whatsapp_text = request.session.pop('enquiry_whatsapp_text', None)
+
+    return render(request, 'shop/contact.html', {
+        'whatsapp_text_encoded': quote(whatsapp_text) if whatsapp_text else '',
+    })
 
 
 # =========================
@@ -64,118 +117,75 @@ def contact_page(request):
 
 def place_order(request):
 
-    services = Service.objects.all()
-
     if request.method == 'POST':
 
-        customer_name = request.POST.get('customer_name', '').strip()
-        whatsapp = request.POST.get('whatsapp', '').strip()
-        email = request.POST.get('email', '').strip()
-        service_id = request.POST.get('service')
-        details = request.POST.get('details', '').strip()
-        quantity = request.POST.get('quantity', 1)
-        deadline = request.POST.get('deadline')
+        form = OrderForm(request.POST)
 
-        # Validate required fields
-        if not all([
-            customer_name,
-            whatsapp,
-            email,
-            service_id,
-            details,
-            deadline
-        ]):
-            messages.error(
-                request,
-                'Please complete all required fields.'
+        if form.is_valid():
+
+            if form.cleaned_data.get('website'):
+                return redirect('home')
+
+            order = form.save(commit=False)
+            order.status = 'NEW'
+            order.amount_paid = 0
+            order.quoted_price = order.service.price * order.quantity
+            order.save()
+
+            tracking_url = request.build_absolute_uri(
+                reverse('order_tracking', args=[order.tracking_number])
             )
 
-            return render(request, 'shop/order_form.html', {
-                'services': services
-            })
+            notify_new_order(order, tracking_url)
 
-        # Validate service
-        service = get_object_or_404(
-            Service,
-            id=service_id
-        )
-
-        # Validate quantity
-        try:
-            quantity = int(quantity)
-
-            if quantity < 1:
-                raise ValueError
-
-        except (ValueError, TypeError):
-            messages.error(
+            messages.success(
                 request,
-                'Please enter a valid quantity.'
+                'Your order has been submitted. Save your tracking number '
+                'below so you can follow its progress.'
             )
 
-            return render(request, 'shop/order_form.html', {
-                'services': services
-            })
-
-        # Validate deadline
-        try:
-            deadline_date = timezone.datetime.strptime(
-                deadline,
-                '%Y-%m-%d'
-            ).date()
-
-            if deadline_date < timezone.localdate():
-                messages.error(
-                    request,
-                    'The deadline cannot be in the past.'
-                )
-
-                return render(request, 'shop/order_form.html', {
-                    'services': services
-                })
-
-        except ValueError:
-            messages.error(
-                request,
-                'Please select a valid deadline.'
+            return redirect(
+                'order_tracking',
+                tracking_number=order.tracking_number
             )
 
-            return render(request, 'shop/order_form.html', {
-                'services': services
-            })
+    else:
+        initial = {}
+        service_id = request.GET.get('service', '')
 
-        # Create order
-        order = Order.objects.create(
-            customer_name=customer_name,
-            whatsapp=whatsapp,
-            email=email,
-            service=service,
-            details=details,
-            quantity=quantity,
-            deadline=deadline_date,
-            status='NEW',
-            quoted_price=service.price * quantity,
-            amount_paid=0
-        )
+        if service_id.isdigit():
+            initial['service'] = int(service_id)
 
-        messages.success(
-            request,
-            'Your order has been successfully submitted!'
-        )
-
-        return redirect(
-            'order_tracking',
-            tracking_number=order.tracking_number
-        )
+        form = OrderForm(initial=initial)
 
     return render(request, 'shop/order_form.html', {
-        'services': services
+        'form': form,
     })
 
 
 # =========================
 # TRACK ORDER SEARCH
 # =========================
+
+def _recent_failures(request):
+    now = time.time()
+    failures = [
+        stamp for stamp in request.session.get('track_failures', [])
+        if now - stamp < TRACK_WINDOW_SECONDS
+    ]
+    request.session['track_failures'] = failures
+    return failures
+
+
+def _normalise_tracking_number(raw):
+    value = (raw or '').strip().upper().replace(' ', '')
+
+    # Allow customers to type only the 8 characters after "NQ-"
+    if len(value) == 8 and not value.startswith('NQ'):
+        value = f'NQ-{value}'
+
+    return value
+
 
 def track_order(request):
 
@@ -184,32 +194,40 @@ def track_order(request):
 
     if request.method == 'POST':
 
-        tracking_number = request.POST.get(
-            'tracking_number',
-            ''
-        ).strip().upper()
+        tracking_number = _normalise_tracking_number(
+            request.POST.get('tracking_number')
+        )
 
-        if tracking_number:
+        failures = _recent_failures(request)
 
-            order = Order.objects.filter(
-                tracking_number=tracking_number
-            ).first()
-
-            if not order:
-                messages.error(
-                    request,
-                    'No order was found with that tracking number.'
-                )
-
-        else:
+        if len(failures) >= TRACK_MAX_FAILURES:
             messages.error(
                 request,
-                'Please enter your tracking number.'
+                'Too many unsuccessful attempts. Please wait a few '
+                'minutes and try again.'
             )
+
+        elif not tracking_number:
+            messages.error(request, 'Please enter your tracking number.')
+
+        else:
+            order = Order.objects.filter(
+                tracking_number=tracking_number
+            ).select_related('service').first()
+
+            if not order:
+                failures.append(time.time())
+                request.session['track_failures'] = failures
+
+                messages.error(
+                    request,
+                    'No order was found with that tracking number. '
+                    'Check it and try again.'
+                )
 
     return render(request, 'shop/track_order.html', {
         'order': order,
-        'tracking_number': tracking_number
+        'tracking_number': tracking_number,
     })
 
 
@@ -220,7 +238,7 @@ def track_order(request):
 def order_tracking(request, tracking_number):
 
     order = get_object_or_404(
-        Order,
+        Order.objects.select_related('service'),
         tracking_number=tracking_number.upper()
     )
 

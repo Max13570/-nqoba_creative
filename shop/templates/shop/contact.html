@@ -763,15 +763,30 @@ Contact Nqoba Creative for professional graphic design, branding, promotional ma
                     </h2>
 
                     <p>
-                        Complete the form below with your
-                        project details. Your enquiry will
-                        be prepared and sent through
-                        WhatsApp.
+                        Complete the form below with your project details. Your enquiry goes straight to our team and we reply by phone, WhatsApp or email.
                     </p>
 
                 </div>
 
-                <form id="contactForm">
+                {% include 'shop/_messages.html' %}
+
+                {% if whatsapp_text_encoded %}
+                <p style="margin-bottom:20px;">
+                    <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text={{ whatsapp_text_encoded }}"
+                       class="btn btn-gold" target="_blank" rel="noopener noreferrer">
+                        Also send this on WhatsApp
+                    </a>
+                </p>
+                {% endif %}
+
+                <form id="contactForm" method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+
+                    <!-- Spam trap: leave empty -->
+                    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+                        <label for="id_website">Leave this field empty</label>
+                        <input type="text" name="website" id="id_website" tabindex="-1" autocomplete="off">
+                    </div>
 
                     <div class="contact-form-grid">
 
@@ -955,16 +970,7 @@ Contact Nqoba Creative for professional graphic design, branding, promotional ma
 
                     </div>
 
-                    <!-- NOTICE -->
-
-                    <div class="contact-form-notice"
-                         id="contactNotice">
-
-                        Your enquiry is ready. WhatsApp will open
-                        with your project details. Please send
-                        the message to complete your enquiry.
-
-                    </div>
+                    
 
                     <!-- SUBMIT -->
 
@@ -1015,7 +1021,7 @@ Contact Nqoba Creative for professional graphic design, branding, promotional ma
 
                             <h3>Phone / WhatsApp</h3>
 
-                            <a href="https://wa.me/26878336238"
+                            <a href="https://wa.me/{{ WHATSAPP_NUMBER }}"
                                target="_blank"
                                rel="noopener noreferrer">
 
@@ -1085,7 +1091,7 @@ Contact Nqoba Creative for professional graphic design, branding, promotional ma
                         quotations and updates.
                     </p>
 
-                    <a href="https://wa.me/26878336238"
+                    <a href="https://wa.me/{{ WHATSAPP_NUMBER }}"
                        target="_blank"
                        rel="noopener noreferrer">
 
@@ -1239,90 +1245,5 @@ Contact Nqoba Creative for professional graphic design, branding, promotional ma
 <!-- ==========================================
      CONTACT FORM JAVASCRIPT
 ========================================== -->
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const form =
-        document.getElementById("contactForm");
-
-    const notice =
-        document.getElementById("contactNotice");
-
-    form.addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-        if (!form.checkValidity()) {
-
-            form.reportValidity();
-
-            return;
-
-        }
-
-        const name =
-            document.getElementById("contactName").value.trim();
-
-        const email =
-            document.getElementById("contactEmail").value.trim();
-
-        const phone =
-            document.getElementById("contactPhone").value.trim();
-
-        const service =
-            document.getElementById("contactService").value;
-
-        const budget =
-            document.getElementById("contactBudget").value;
-
-        const message =
-            document.getElementById("contactMessage").value.trim();
-
-        const whatsappMessage =
-
-            "NEW PROJECT ENQUIRY - NQOBA CREATIVE\n\n" +
-
-            "Name: " + name + "\n" +
-
-            "Email: " + email + "\n" +
-
-            "Phone: " + phone + "\n\n" +
-
-            "Service Required: " + service + "\n" +
-
-            "Estimated Budget: " +
-            (budget || "Not specified") + "\n\n" +
-
-            "Project Description:\n" +
-            message + "\n\n" +
-
-            "Sent through the Nqoba Creative website.";
-
-        const whatsappURL =
-
-            "https://wa.me/26878336238?text=" +
-
-            encodeURIComponent(whatsappMessage);
-
-        notice.style.display = "block";
-
-        notice.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-        });
-
-        window.open(
-            whatsappURL,
-            "_blank",
-            "noopener,noreferrer"
-        );
-
-    });
-
-});
-
-</script>
 
 {% endblock %}

@@ -1,0 +1,8 @@
+<div class="of-field{% if field.errors %} has-error{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+    {{ field }}
+    {% if hint %}<p class="of-hint">{{ hint }}</p>{% endif %}
+    {% for error in field.errors %}
+    <p class="of-error">{{ error }}</p>
+    {% endfor %}
+</div>

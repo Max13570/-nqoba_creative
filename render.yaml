@@ -1,0 +1,26 @@
+# Render Blueprint. Secrets marked "sync: false" are typed into the Render
+# dashboard the first time; they are never stored in this file.
+services:
+  - type: web
+    name: nqoba-creative
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.1
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL          # Postgres connection string (see README)
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: BREVO_API_KEY         # order and enquiry emails (see README)
+        sync: false
+      - key: DEFAULT_FROM_EMAIL    # must be a sender verified in Brevo
+        sync: false

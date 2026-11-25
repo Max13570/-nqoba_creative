@@ -1439,7 +1439,7 @@ solutions for businesses and individuals in Eswatini.
                         <div class="home-service-price">
 
                             <strong>
-                                E{{ s.price }}
+                                {{ CURRENCY }}{{ s.price }}
                             </strong>
 
                             <span>
@@ -1452,7 +1452,7 @@ solutions for businesses and individuals in Eswatini.
 
                         </div>
 
-                        <a href="https://wa.me/26878336238?text=Hi%20Nqoba%20Creative%2C%20I%20am%20interested%20in%20{{ s.name|urlencode }}"
+                        <a href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hi%20Nqoba%20Creative%2C%20I%20am%20interested%20in%20{{ s.name|urlencode }}"
                             class="home-service-button" target="_blank" rel="noopener noreferrer">
 
                             Enquire About This Service →
@@ -1927,7 +1927,7 @@ solutions for businesses and individuals in Eswatini.
                     Start Your Project →
                 </a>
 
-                <a href="https://wa.me/26878336238" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/{{ WHATSAPP_NUMBER }}" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
 
                     WhatsApp Us
 

@@ -1,240 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'shop/base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Track Your Order | Nqoba Creative{% endblock %}
 
-    <title>Track Your Order | Nqoba Creative</title>
+{% block meta_description %}Check the progress of your Nqoba Creative design order with your tracking number.{% endblock %}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+{% block extra_css %}
+{% include 'shop/_order_styles.html' %}
+{% endblock %}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7f5;
-            color: #1f2937;
-        }
+{% block content %}
 
-        .navbar {
-            background: #064e3b;
-            color: white;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 23px;
-            font-weight: bold;
-            color: #d4af37;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 70px auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 45px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-        }
-
-        .icon {
-            font-size: 55px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #064e3b;
-            margin-bottom: 10px;
-        }
-
-        .description {
-            color: #64748b;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-        input {
-            width: 100%;
-            padding: 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #0f766e;
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            background: #064e3b;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #0f766e;
-        }
-
-        .message {
-            padding: 15px;
-            background: #fee2e2;
-            color: #991b1b;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .found-order {
-            margin-top: 30px;
-            padding: 25px;
-            background: #ecfdf5;
-            border-radius: 10px;
-            border: 1px solid #a7f3d0;
-        }
-
-        .found-order h3 {
-            color: #064e3b;
-        }
-
-        .tracking-number {
-            font-size: 22px;
-            font-weight: bold;
-            color: #064e3b;
-            word-break: break-word;
-        }
-
-        .view-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 13px 25px;
-            background: #d4af37;
-            color: #064e3b;
-            font-weight: bold;
-            border-radius: 8px;
-            text-decoration: none;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #64748b;
-        }
-
-        @media(max-width: 600px) {
-            .container {
-                margin: 30px auto;
-            }
-
-            .card {
-                padding: 30px 20px;
-            }
-
-            .navbar {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav class="navbar">
-        <div class="brand">NQOBA CREATIVE</div>
-
-        <div>
-            <a href="/">Home</a>
-            <a href="/order/">Place Order</a>
-        </div>
-    </nav>
-
+<section class="page-banner">
     <div class="container">
+        <h1>Track your order</h1>
+        <p>Enter the tracking number from your confirmation to see where your design is right now.</p>
+    </div>
+</section>
 
-        <div class="card">
+<section class="page-body">
+    <div class="container track-wrap">
 
-            <div class="icon">📦</div>
+        <div class="panel">
 
-            <h1>Track Your Order</h1>
+            {% include 'shop/_messages.html' %}
 
-            <p class="description">
-                Enter your unique tracking number below to check the
-                current progress of your design order.
-            </p>
-
-            {% if messages %}
-            {% for message in messages %}
-            <div class="message">
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-
-            <form method="POST">
+            <form method="post" class="track-form">
                 {% csrf_token %}
 
-                <input type="text" name="tracking_number" placeholder="NQ-XXXXXXXX" value="{{ tracking_number }}"
-                    required>
+                <div class="of-field">
+                    <label for="tracking_number">Tracking number</label>
+                    <input type="text" id="tracking_number" name="tracking_number"
+                           value="{{ tracking_number }}" placeholder="NQ-XXXXXXXX"
+                           autocomplete="off" required>
+                    <p class="of-hint">It starts with NQ- and was shown after you placed your order.</p>
+                </div>
 
-                <button type="submit">
-                    Track My Order
-                </button>
+                <button type="submit" class="of-submit">Track my order</button>
             </form>
 
             {% if order %}
-
-            <div class="found-order">
-
-                <h3>Order Found!</h3>
-
-                <p>
-                    Your order tracking number is:
-                </p>
-
-                <div class="tracking-number">
-                    {{ order.tracking_number }}
-                </div>
-
-                <a href="{% url 'order_tracking' order.tracking_number %}" class="view-button">
-                    View Order Progress
-                </a>
-
+            <div class="track-found">
+                <strong>Order found</strong>
+                <div class="code">{{ order.tracking_number }}</div>
+                <p class="side-note">{{ order.service.name }}: {{ order.get_status_display }}</p>
+                <a href="{% url 'order_tracking' order.tracking_number %}" class="btn btn-gold">View order progress</a>
             </div>
-
             {% endif %}
 
         </div>
 
+        <p class="side-note" style="text-align:center;">
+            Have not ordered yet?
+            <a href="{% url 'place_order' %}" style="color:var(--primary);font-weight:700;">Place an order</a>
+        </p>
+
     </div>
+</section>
 
-    <footer class="footer">
-        &copy; {% now "Y" %} Nqoba Creative.
-        Ideas Into Impact.
-    </footer>
-
-</body>
-
-</html>
+{% endblock %}
